@@ -1,20 +1,129 @@
-from rest_framework import status
+from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
+from rest_framework import status, permissions
+from accounts.serializers import UserCasesSerializer, UserProfileSerializer, UserSerializer, UserLoginSerializer
+from accounts.models import Cases, User, UserProfile
 from rest_framework.views import APIView
-from accounts.serializers import UserSerializer
-from accounts.models import User
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
-class UserRegistrationView(APIView):
+class UserSignup(APIView):
+    permission_classes = (permissions.AllowAny,)
 
-    def get(self, request, format='json'):
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def post(self, request, format='json'):
+    def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            user = User.objects.get(email=request.data['email'])
+            user.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# class UserLogin(APIView):
+#     permission_classes = (permissions.AllowAny,)
+#     authentication_classes = (SessionAuthentication,)
+
+#     def post(self, request):
+#         data = request.data
+#         email = data.get('email', '').strip()
+#         if not email:
+#             raise ValidationError('An email is needed')
+
+#         password = data.get('password', '').strip()
+#         if not password:
+#             raise ValidationError('A password is needed')
+
+#         serializer = UserLoginSerializer(data=data)
+#         if serializer.is_valid(raise_exception=True):
+#             user = serializer.check_user(data)
+#             login(request, user)
+#             print(request.user)
+#             return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# class UserLogout(APIView):
+#     permission_classes = (permissions.AllowAny,)
+#     authentication_classes = ()
+
+#     def post(self, request):
+#         logout(request)
+#         return Response(status=status.HTTP_200_OK)
+
+
+# class UserView(APIView):
+#     permission_classes = (permissions.IsAuthenticated,)
+#     authentication_classes = (SessionAuthentication,)
+
+#     def get(self, request):
+#         print(request.user)
+#         serializer = UserSerializer(request.user)
+#         return Response({'user': serializer.data}, status=status.HTTP_200_OK)
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['email'] = user.email
+        print(user)
+        return token
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user(request):
+    print(request.user)
+    serializer = UserSerializer(request.user)
+    return Response({'user': serializer.data}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def get_profile(request, id):
+    user = get_object_or_404(User, id=id)
+    profile = UserProfile.objects.get(id=user.id)
+    user_serializer = UserSerializer(user)
+    profile_serializer = UserProfileSerializer(profile)
+    return Response({'user': user_serializer.data, 'profile': profile_serializer.data}, status=status.HTTP_200_OK)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def edit_profile(request):
+    user = request.user
+    user_profile = get_object_or_404(UserProfile, id=user.id)
+    serializer = UserProfileSerializer(user_profile, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def add_case_image(request):
+    user = request.user
+    data = dict(request.data)
+    data['user'] = user.id
+
+    serializer = UserCasesSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_case_image(request, id):
+    user = request.user
+    case = get_object_or_404(Cases, id=id, user=user)
+    case.delete()
+    return Response({"message": "Product deleted successfully"}, status=status.HTTP_204_NO_CONTENT)

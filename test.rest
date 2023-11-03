@@ -1,0 +1,34 @@
+post http://127.0.0.1:8000/accounts/register/
+Content-Type: application/json
+
+{ "first_name": "islam","last_name": "nady","email": "islam@gmail.com","password":"123","confirm_password":"123","is_doctor": true,"phone": "01234567897","clinic": "asd" }
+###
+post http://127.0.0.1:8000/accounts/token/
+Content-Type: application/json
+
+{ "email": "islam@gmail.com","password":"123"}
+###
+post http://127.0.0.1:8000/accounts/token/refresh/
+Content-Type: application/json
+
+{ "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcwNjc3MTAyMywiaWF0IjoxNjk4OTk1MDIzLCJqdGkiOiI3OTUxNTQwYjBkOTg0MDNkYjc0MWQwZTk5ODM5NTNkMSIsInVzZXJfaWQiOjE0LCJlbWFpbCI6Imlzc2xhbWFuYWFhYWFkYXk5NUBnbWFpbGFhLmNvbSJ9.GCiNFT04wlpbfWCu77wO6fQ5VKrnaA1k49E9YlEYFU4" }
+###
+
+get http://127.0.0.1:8000/accounts/user/
+Content-Type: application/json
+
+###
+get http://127.0.0.1:8000/accounts/profile/1
+Content-Type: application/json
+
+###
+put http://127.0.0.1:8000/accounts/profile/edit/
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2Nzg2NDI2LCJpYXQiOjE2OTkwMTA0MjYsImp0aSI6ImEwNjM5NDQ2NWY2MzQzZTI5Yzc0NjlkODJiNjE5MGNiIiwidXNlcl9pZCI6MSwiZW1haWwiOiJpc2xhbUBnbWFpbC5jb20ifQ.3QUWWMecx1rEvOxy1ohOFN3E2hBTwmxa8OlZaHnMg5k
+
+{
+    "info": "fan1",
+    "bio": "This is the default bio.",
+    "profile_picture": null,
+    "contact": null
+}
