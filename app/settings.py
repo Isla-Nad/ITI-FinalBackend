@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
+    'medicalHistory.apps.MedicalhistoryConfig',
     'django_cleanup.apps.CleanupConfig',
     'rest_framework',
     'corsheaders',
@@ -91,9 +92,14 @@ WSGI_APPLICATION = 'app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'final',
-        'USER': 'test',
-        'PASSWORD': 'test',
+        'NAME': 'project',   #    serlized_products=ProductSerlizer(data=request.data)
+        #    if serlized_products.is_valid():
+        #       serlized_products.save()
+        #       return Response({"product":serlized_products.data},status=201)
+           
+        #    return Response({"error":serlized_products.errors},status=status.HTTP_400_BAD_REQUEST)
+        'USER': 'postgres',
+        'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': 5432
     }
@@ -144,3 +150,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = 'media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+APPEND_SLASH = False
+
