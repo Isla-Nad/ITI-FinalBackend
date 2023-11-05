@@ -73,8 +73,24 @@ class UserCasesSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    profile_picture = serializers.ImageField(required=False)
-
     class Meta:
         model = UserProfile
         fields = ["info", "bio", "profile_picture", "contact"]
+
+
+class UserProfileSerializerEdit(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ["info", "bio", "contact"]
+
+
+class UserSerializerEdit(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'phone', 'clinic']
+
+
+class UserPicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ["profile_picture"]

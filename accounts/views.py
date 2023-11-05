@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status, permissions
-from accounts.serializers import UserCasesSerializer, UserCertificatesSerializer, UserProfileSerializer, UserSerializer, UserLoginSerializer
+from accounts.serializers import UserCasesSerializer, UserCertificatesSerializer, UserPicSerializer, UserProfileSerializer, UserProfileSerializerEdit, UserSerializer, UserSerializerEdit
 from accounts.models import Cases, Certificates, User, UserProfile
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes, parser_classes
@@ -92,20 +92,66 @@ def get_profile(request, id):
     profile = UserProfile.objects.get(id=user.id)
     user_serializer = UserSerializer(user)
     profile_serializer = UserProfileSerializer(profile)
-    return Response({'user': user_serializer.data, 'profile': profile_serializer.data}, status=status.HTTP_200_OK)
+    combined_serializer = {
+        **user_serializer.data,
+        **profile_serializer.data
+    }
+    return Response(combined_serializer, status=status.HTTP_200_OK)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def edit_profile(request):
+    user = request.user
+    user_profile = get_object_or_404(UserProfile, id=user.id)
+    profile_serializer = UserProfileSerializerEdit(
+        user_profile, data=request.data, partial=True)
+    user_serializer = UserSerializerEdit(
+        user, data=request.data, partial=True)
+    if user_serializer.is_valid() and profile_serializer.is_valid():
+        user_serializer.save()
+        profile_serializer.save()
+        combined_serializer = {
+            **user_serializer.data,
+            **profile_serializer.data
+        }
+        combined_errors = {
+            **user_serializer.errors,
+            **profile_serializer.errors
+        }
+        return Response(combined_serializer, status=status.HTTP_200_OK)
+    return Response(combined_errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 @parser_classes([MultiPartParser, FormParser])
-def edit_profile(request):
+def edit_profile_pic(request):
     user = request.user
     user_profile = get_object_or_404(UserProfile, id=user.id)
-    serializer = UserProfileSerializer(user_profile, data=request.data)
+    serializer = UserPicSerializer(
+        user_profile, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_profile_pic(request):
+    user = request.user
+    user_profile = get_object_or_404(UserProfile, user=user.id)
+
+    if user_profile.profile_picture:
+        user_profile.profile_picture.delete()
+        user_profile.profile_picture = None
+        user_profile.save()
+        serializer = UserPicSerializer(
+            user_profile,  partial=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response("No profile picture to delete.", status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
