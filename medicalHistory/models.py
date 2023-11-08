@@ -4,7 +4,6 @@ from django.db import models
 class MedicalHistory(models.Model):
     patient_name= models.CharField(max_length=100)
     date_of_visit= models.DateField()
-    action= models.CharField()
     Allergies=models.TextField(default="enter")
     MedicalConditions=models.TextField(default="enter")
     PreviouDentalTreatments=models.TextField(default="enter")

@@ -9,7 +9,7 @@ from rest_framework import status
 @api_view(['GET','POST'])
 def medicalhistoryapidata(request):
     if request.method=="POST":
-          information=MedicalHistory.objects.create( patient_name=request.data['patient_name'], date_of_visit=request.data['date_of_visit'],action=request.data['action'], Allergies=request.data['Allergies'], MedicalConditions=request.data['MedicalConditions'],PreviouDentalTreatments=request.data['PreviouDentalTreatments'],DentalConditions=request.data['DentalConditions'],DentalHygieneHabits=request.data['DentalHygieneHabits'],image=request.data['image'])
+          information=MedicalHistory.objects.create( patient_name=request.data['patient_name'], date_of_visit=request.data['date_of_visit'], Allergies=request.data['Allergies'], MedicalConditions=request.data['MedicalConditions'],PreviouDentalTreatments=request.data['PreviouDentalTreatments'],DentalConditions=request.data['DentalConditions'],DentalHygieneHabits=request.data['DentalHygieneHabits'],image=request.data['image'])
 
           information.save()
           return Response({'products':MedicalSerlizer(information).data})
@@ -21,7 +21,7 @@ def medicalhistoryapidata(request):
              print(MedicalSerlizer(info).data)
              pro_seralizer.append(MedicalSerlizer(info).data)
 
-         return Response({"data":pro_seralizer})
+         return Response(pro_seralizer)
 class MedicalhistoryDelete(DestroyAPIView):
     queryset = MedicalHistory.objects.all()
     serializer_class = MedicalSerlizer    
