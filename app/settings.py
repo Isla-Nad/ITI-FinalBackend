@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'community.apps.CommunityConfig',
     'appointments.apps.AppointmentsConfig',
+    'medicalHistory.apps.MedicalhistoryConfig',
     'django_cleanup.apps.CleanupConfig',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
@@ -177,3 +178,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = 'media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+APPEND_SLASH = False
