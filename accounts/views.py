@@ -206,3 +206,24 @@ def delete_certificate(request, id):
     certificate = get_object_or_404(Certificates, id=id, user=user.id)
     certificate.delete()
     return Response({"message": "Product deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+def search_doctors(request):
+    search_query = request.GET.get('search_query', '')
+    doctors = User.objects.filter(is_doctor=True)
+
+    if search_query:
+        doctors = doctors.filter(first_name__icontains=search_query)
+
+    profiles = UserProfile.objects.filter(user__in=doctors)
+
+    doctor_data = []
+    for doctor in doctors:
+        user_serializer = UserSerializer(doctor)
+        profile = profiles.filter(user=doctor).first()
+        profile_serializer = UserProfileSerializer(profile)
+        combined_data = {**user_serializer.data, **profile_serializer.data}
+        doctor_data.append(combined_data)
+
+    return Response(doctor_data)

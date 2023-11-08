@@ -1,5 +1,5 @@
 from django.urls import path
-from accounts.views import UserSignup, MyTokenObtainPairView, add_case, add_certificate, delete_case, delete_certificate, delete_profile_pic, edit_profile, edit_profile_pic, get_cases, get_certificates, get_profile, get_user
+from accounts.views import UserSignup, MyTokenObtainPairView, add_case, add_certificate, delete_case, delete_certificate, delete_profile_pic, edit_profile, edit_profile_pic, get_cases, get_certificates, get_profile, get_user, search_doctors
 from rest_framework_simplejwt.views import TokenRefreshView
 
 
@@ -27,4 +27,5 @@ urlpatterns = [
          name='account.get_certificates'),
     path('profile/certificate/delete/<int:id>',
          delete_certificate, name='account.delete_certificate'),
+    path('search/doctors', search_doctors, name='account.search_doctors'),
 ]
