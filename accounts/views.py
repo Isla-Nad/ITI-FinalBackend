@@ -1,14 +1,15 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status, permissions
-from accounts.serializers import UserCasesSerializer, UserProfileSerializer, UserSerializer, UserLoginSerializer
-from accounts.models import Cases, User, UserProfile
+from accounts.serializers import UserCasesSerializer, UserCertificatesSerializer, UserPicSerializer, UserProfileSerializer, UserProfileSerializerEdit, UserSerializer, UserSerializerEdit
+from accounts.models import Cases, Certificates, User, UserProfile
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.permissions import IsAuthenticated
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 class UserSignup(APIView):
@@ -91,7 +92,11 @@ def get_profile(request, id):
     profile = UserProfile.objects.get(id=user.id)
     user_serializer = UserSerializer(user)
     profile_serializer = UserProfileSerializer(profile)
-    return Response({'user': user_serializer.data, 'profile': profile_serializer.data}, status=status.HTTP_200_OK)
+    combined_serializer = {
+        **user_serializer.data,
+        **profile_serializer.data
+    }
+    return Response(combined_serializer, status=status.HTTP_200_OK)
 
 
 @api_view(['PUT'])
@@ -99,31 +104,126 @@ def get_profile(request, id):
 def edit_profile(request):
     user = request.user
     user_profile = get_object_or_404(UserProfile, id=user.id)
-    serializer = UserProfileSerializer(user_profile, data=request.data)
+    profile_serializer = UserProfileSerializerEdit(
+        user_profile, data=request.data, partial=True)
+    user_serializer = UserSerializerEdit(
+        user, data=request.data, partial=True)
+    if user_serializer.is_valid() and profile_serializer.is_valid():
+        user_serializer.save()
+        profile_serializer.save()
+        combined_serializer = {
+            **user_serializer.data,
+            **profile_serializer.data
+        }
+        combined_errors = {
+            **user_serializer.errors,
+            **profile_serializer.errors
+        }
+        return Response(combined_serializer, status=status.HTTP_200_OK)
+    return Response(combined_errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+@parser_classes([MultiPartParser, FormParser])
+def edit_profile_pic(request):
+    user = request.user
+    user_profile = get_object_or_404(UserProfile, id=user.id)
+    serializer = UserPicSerializer(
+        user_profile, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_profile_pic(request):
+    user = request.user
+    user_profile = get_object_or_404(UserProfile, user=user.id)
+
+    if user_profile.profile_picture:
+        user_profile.profile_picture.delete()
+        user_profile.profile_picture = None
+        user_profile.save()
+        serializer = UserPicSerializer(
+            user_profile,  partial=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response("No profile picture to delete.", status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def add_case_image(request):
-    user = request.user
-    data = dict(request.data)
-    data['user'] = user.id
-
-    serializer = UserCasesSerializer(data=data)
+@parser_classes([MultiPartParser, FormParser])
+def add_case(request):
+    serializer = UserCasesSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['GET'])
+def get_cases(request, id):
+    cases = Cases.objects.filter(user=id)
+    serializer = UserCasesSerializer(cases, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
-def delete_case_image(request, id):
+def delete_case(request, id):
     user = request.user
-    case = get_object_or_404(Cases, id=id, user=user)
+    case = get_object_or_404(Cases, id=id, user=user.id)
     case.delete()
     return Response({"message": "Product deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+@parser_classes([MultiPartParser, FormParser])
+def add_certificate(request):
+    serializer = UserCertificatesSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def get_certificates(request, id):
+    certificates = Certificates.objects.filter(user=id)
+    serializer = UserCertificatesSerializer(certificates, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_certificate(request, id):
+    user = request.user
+    certificate = get_object_or_404(Certificates, id=id, user=user.id)
+    certificate.delete()
+    return Response({"message": "Product deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+def search_doctors(request):
+    search_query = request.GET.get('search_query', '')
+    doctors = User.objects.filter(is_doctor=True)
+
+    if search_query:
+        doctors = doctors.filter(first_name__icontains=search_query)
+
+    profiles = UserProfile.objects.filter(user__in=doctors)
+
+    doctor_data = []
+    for doctor in doctors:
+        user_serializer = UserSerializer(doctor)
+        profile = profiles.filter(user=doctor).first()
+        profile_serializer = UserProfileSerializer(profile)
+        combined_data = {**user_serializer.data, **profile_serializer.data}
+        doctor_data.append(combined_data)
+
+    return Response(doctor_data)

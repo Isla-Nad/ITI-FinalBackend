@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
+    'community.apps.CommunityConfig',
+    'appointments.apps.AppointmentsConfig',
+    'medicalHistory.apps.MedicalhistoryConfig',
     'django_cleanup.apps.CleanupConfig',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
@@ -61,7 +64,6 @@ MIDDLEWARE = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-
 AUTH_USER_MODEL = 'accounts.User'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -178,3 +180,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = 'media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+APPEND_SLASH = False

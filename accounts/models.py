@@ -76,7 +76,7 @@ class UserProfile(models.Model):
 
 class Certificates(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    image = models.ImageField(
+    certificate = models.ImageField(
         upload_to='accounts/images/', blank=True, null=True)
 
     def __str__(self):
@@ -85,7 +85,7 @@ class Certificates(models.Model):
 
 class Cases(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    image = models.ImageField(
+    case = models.ImageField(
         upload_to='accounts/images/', blank=True, null=True)
 
     def __str__(self):

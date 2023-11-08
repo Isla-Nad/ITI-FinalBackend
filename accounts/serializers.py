@@ -73,35 +73,24 @@ class UserCasesSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = UserProfile
         fields = ["info", "bio", "profile_picture", "contact"]
 
-# class UserProfileSerializer(serializers.ModelSerializer):
-#     certificates = UserCertificatesSerializer(many=True, read_only=True)
-#     cases = UserCasesSerializer(many=True, read_only=True)
-#     uploaded_certificates = serializers.ListField(
-#         child=serializers.ImageField(allow_empty_file=False, use_url=False),
-#         write_only=True
-#     )
-#     uploaded_cases = serializers.ListField(
-#         child=serializers.ImageField(allow_empty_file=False, use_url=False),
-#         write_only=True
-#     )
 
-#     class Meta:
-#         model = UserProfile
-#         fields = ["info", "bio", "profile_picture", "contact", "certificates", "cases",
-#                   "uploaded_certificates", "uploaded_cases"]
+class UserProfileSerializerEdit(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ["info", "bio", "contact"]
 
-#     def create(self, validated_data):
-#         uploaded_certificates = validated_data.pop("uploaded_certificates")
-#         uploaded_cases = validated_data.pop("uploaded_cases")
-#         profile = UserProfile.objects.create(**validated_data)
 
-#         for image in uploaded_certificates:
-#             Certificates.objects.create(profile=profile, certificates=image)
-#         for image in uploaded_cases:
-#             Cases.objects.create(profile=profile, cases=image)
-#         return profile
+class UserSerializerEdit(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'phone', 'clinic']
+
+
+class UserPicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ["profile_picture"]
