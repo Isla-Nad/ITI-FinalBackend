@@ -21,6 +21,9 @@ def medical_history(request, id):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def medical_history_create(request):
+    if not request.user.is_doctor:
+        return Response({'detail': 'You must be a doctor to create a medical history.'}, status=status.HTTP_403_FORBIDDEN)
+
     serializer = MedicalHistorySerializer(data=request.data)
     if serializer.is_valid():
         serializer.save(doctor=request.user)
