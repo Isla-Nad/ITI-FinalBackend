@@ -25,5 +25,5 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('community/', include('community.urls')),
     path('appointments/', include('appointments.urls')),
-    path('medicalhistory/', include('medicalHistory.urls')),
+    path('medical/', include('medical_history.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

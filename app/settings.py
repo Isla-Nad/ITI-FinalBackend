@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'community.apps.CommunityConfig',
     'appointments.apps.AppointmentsConfig',
-    'medicalHistory.apps.MedicalhistoryConfig',
+    'medical_history.apps.MedicalHistoryConfig',
     'django_cleanup.apps.CleanupConfig',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
