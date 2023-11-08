@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
+    'clinics.apps.ClinicsConfig',
+    # 'django.contrib.gis'
 ]
 
 MIDDLEWARE = [
@@ -125,8 +127,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'final',
-        'USER': 'test',
-        'PASSWORD': 'test',
+        'USER': 'postgres',
+        'PASSWORD': '1311',
         'HOST': 'localhost',
         'PORT': 5432
     }
