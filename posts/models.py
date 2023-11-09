@@ -17,3 +17,7 @@ class Post(models.Model):
     @classmethod
     def get_all_posts(cls):
         return cls.objects.all()
+    
+    @classmethod
+    def get_specific_post(cls, id):
+        return cls.objects.filter(id=id).first()

@@ -7,6 +7,7 @@ from posts.models import Post
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from posts.serializers import PostSerializer
+from rest_framework import status
 #*******************
 @api_view(['GET','POST'])
 def try1(request):
@@ -41,6 +42,30 @@ def index(request):
         #     serialized_posts.append(PostSerializer(post).data)
         return Response({"posts":serialized_posts.data})
 
+#*******************************************
+@api_view(['GET','PUT','DELETE'])
+def post_resource(request,id):
+   
+    post = Post.get_specific_post(id)
+   
+    if post and request.method == 'PUT':
+        serialized_post=PostSerializer(data=request.data, instance=post)
+       
+        if serialized_post.is_valid():
+            serialized_post.save()
+            return Response({'post':serialized_post.data}, status=200)
+        return Response ({"errors":serialized_post.errors},status=status.HTTP_400_BAD_REQUEST)
+    
+    elif post and request.method == 'DELETE':
+        post.delete()
+        return Response({"message":"post deleted successfully!"}, status=status.HTTP_204_NO_CONTENT)
+   
+    elif post and request.method =='GET': #get specific element
+        serialized_post=PostSerializer(post)
+        return Response({'data':serialized_post.data}, status=status.HTTP_200_OK)
+   
+    else:
+        return Response({"message":"No Posts Available!"}, status=status.HTTP_205_RESET_CONTENT)
 
 
 
