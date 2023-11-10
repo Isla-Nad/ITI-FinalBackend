@@ -13,6 +13,9 @@ class Appointment(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     is_booked = models.BooleanField(default=False)
+    is_accepted = models.BooleanField(default=False, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         unique_together = ['appointment_date', 'start_time', 'end_time']

@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from clinics.models import Clinic,Cases
-from clinics.serializers import ClinicSerializer,CaseSerializer
+from clinics.models import Clinic,Cases,ClinicImages
+from clinics.serializers import ClinicSerializer,CaseSerializer,ClinicImageSerializer
 from rest_framework import status
 
 @api_view(['GET','POST'])
@@ -27,12 +27,14 @@ def index (request):
 def show(request,id):
     clinic = Clinic.objects.get(id=id)
     cases_for_clinic = Cases.objects.filter(clinic_id=id)
+    images_for_clinic = ClinicImages.objects.filter(clinic_id=id)
     
     # Serialize the clinic and cases queryset as dictionaries
     clinic_data = ClinicSerializer(clinic).data
     cases_data = CaseSerializer(cases_for_clinic, many=True).data
+    images_data = ClinicImageSerializer(images_for_clinic, many=True).data
 
-    return Response({'clinic': clinic_data, 'cases': cases_data})
+    return Response({'clinic': clinic_data, 'cases': cases_data, 'images': images_data})
 
 @api_view(['POST'])   
 def delete(request,id):
@@ -47,6 +49,15 @@ def delete(request,id):
 @api_view(['POST'])
 def create_case(request):
     serializer = CaseSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def create_clinic_image(request):
+    serializer = ClinicImageSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)

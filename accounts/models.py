@@ -49,7 +49,7 @@ class User(AbstractUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.email
+        return self.first_name
 
 
 class UserProfile(models.Model):
