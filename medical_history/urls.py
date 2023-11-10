@@ -8,3 +8,4 @@ urlpatterns = [
     path('history/delete/<int:id>', medical_history_delete),
     path('history/edit/<int:id>', medical_history_edit),
 ]
+ 

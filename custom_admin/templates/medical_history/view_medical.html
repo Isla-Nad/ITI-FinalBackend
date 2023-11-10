@@ -1,0 +1,39 @@
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" />
+    </head>
+    <body>
+        <h1 class="text-center text-dark mb-4">Patient Details</h1>
+        <div class="container">
+        <div class="card mb-3" style="max-width: 540px;">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="{{selected.get_image_url}}" class="img-fluid rounded-start" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h2 class="card-title">{{selected.patient_name}}</h2>
+                  <p class="card-text">Vist Date:{{selected.date_of_visit}}</p>
+                  <p class="card-text">Allergies:{{selected.allergies}}</p>
+                  <p class="card-text">Medical Conditions:{{selected.medical_conditions}}</p>
+                  <p class="card-text">Previous Dental Treaments:{{selected.previous_dental_treatments}}</p>
+                  <p class="card-text">Dental Conditions:{{selected.dental_conditions}}</p>
+                  <p class="card-text">Dental Hygiene Habits:{{selected.dental_hygiene_habits}}</p>
+                  <p class="card-text">Specific Sental Concerns:{{selected.specific_dental_concerns}}</p>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          <a href="{% url 'allmedical' %}" class="btn btn-dark">Back</a>
+        </div>
+        
+        <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+    </body>
+</html>
