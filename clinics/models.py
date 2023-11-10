@@ -25,11 +25,13 @@ class Clinic(models.Model):
 
 class Cases(models.Model):
     clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100, null=True, blank=True)
+    desc = models.CharField(max_length=500, null=True, blank=True)
     image = models.ImageField(
         upload_to='clinics/images/', blank=True, null=True)
 
     def __str__(self):
-        return f"{self.image}"
+        return f"{self.title}"
     
     # def get_cases_for_clinic(self, clinic_id):
     #     cases_for_clinic = Cases.objects.filter(clinic_id=clinic_id)
