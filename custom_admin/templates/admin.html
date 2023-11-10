@@ -1,0 +1,33 @@
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" />
+    </head>
+    <body>
+        <div class="container my-4">
+            <h1 class="text-center text-info mb-4">Admin Home</h1>
+          </div>
+          <div class="col-16">
+            <div class="card mb-4">
+              <div class="card-body">
+                <h2 class="card-title text-center display-5">Medical History</h2>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item d-flex justify-content-between">
+                    <a href="{% url 'allmedical' %}" class="text-primary text-decoration-none"><span class="fw-bold">MedicalHistory</span></a>
+                    <span class="badge bg-secondary">{{medical_count}}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        
+          <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+    </body>
+</html>
+
+
