@@ -1,0 +1,47 @@
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" />
+    </head>
+    <body>
+        <h1 class="text-center text-dark mb-4">Posts</h1>
+        <div class="container">
+        <a href="{% url 'postcreate' %}" class="btn btn-success">Create Post</a>
+        <table class="table">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Content</th>
+                <th scope="col">image</th>
+                <th scope="col">Created at</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for post in posts%}
+            <tr>
+                <th scope="row">{{post.id}}</th>
+                <td>{{post.title }}</td>
+                <td>{{post.content}}</td>
+                <td>{{post.image.url}}</td>
+                <td>{{post.created_at}}</td>
+                <td>
+                    <a href="{% url "postdetial" post.id %}" class="btn btn-primary">View</a>
+                    <a href="{% url "postdelete" post.id %}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+    
+            </tbody>
+        </table>
+        <a href="{% url 'admin_home' %}" class="btn btn-dark">Back</a>
+        </div>
+        <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+    </body>
+</html>

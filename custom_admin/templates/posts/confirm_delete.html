@@ -1,0 +1,25 @@
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" />
+    </head>
+    <body>
+     
+        <h1 class="text-center text-dark mb-4"> Delete Post</h1>
+        <div class="container">
+            <p>Are you sure you want to delete the patient "{{ object }}"?</p>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        <a href="{% url 'postslist' %}" class="btn btn-dark">Back</a>
+    </div>
+        <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+        <script src="{% static 'javascript/script.js'%}"></script>
+    </body>
+</html>
