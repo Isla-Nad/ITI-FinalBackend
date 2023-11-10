@@ -107,3 +107,50 @@ def booked_appointments(request, id):
         })
 
     return Response(data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def booked_appointments_doctor(request, id):
+    doctor = get_object_or_404(User, id=id)
+    appointments = Appointment.objects.filter(
+        doctor=doctor, is_booked=True).order_by('appointment_date', 'start_time')
+    grouped_appointments = {}
+
+    for appointment in appointments:
+        appointment_date = appointment.appointment_date
+        if appointment_date not in grouped_appointments:
+            grouped_appointments[appointment_date] = []
+        grouped_appointments[appointment_date].append(appointment)
+
+    data = []
+
+    for appointment_date, appointments in grouped_appointments.items():
+        doctor_data = UserSerializer(appointments[0].doctor).data
+        patient_data = UserSerializer(
+            appointments[0].patient).data if appointments[0].patient else None
+        appointment_data = AppointmentSerializer(appointments, many=True).data
+
+        data.append({
+            'appointment_date': appointment_date,
+            'doctor': doctor_data,
+            'patient': patient_data,
+            'appointments': appointment_data
+        })
+
+    return Response(data, status=status.HTTP_200_OK)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def appointment_book_doctor(request, id):
+    doctor = request.user
+    appointment = get_object_or_404(Appointment, id=id)
+    if not doctor.is_doctor:
+        return Response({"detail": "You must be a doctor to reject appointments."}, status=status.HTTP_403_FORBIDDEN)
+    if appointment.is_booked:
+        appointment.is_booked = False
+        appointment.patient = None
+        appointment.save()
+        return Response({"detail": "Appointment rejected successfully."}, status=status.HTTP_200_OK)
+    else:
+        return Response({"detail": "This appointment is already rejected."}, status=status.HTTP_403_FORBIDDEN)

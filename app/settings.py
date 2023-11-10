@@ -39,14 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts.apps.AccountsConfig',
-    'community.apps.CommunityConfig',
-    'appointments.apps.AppointmentsConfig',
     'django_cleanup.apps.CleanupConfig',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
-    'posts',
+    'accounts.apps.AccountsConfig',
+    'community.apps.CommunityConfig',
+    'appointments.apps.AppointmentsConfig',
+    'medical_history.apps.MedicalHistoryConfig',
+    'clinics.apps.ClinicsConfig',
+    'posts.apps.PostsConfig',
+    'custom_admin.apps.CustomAdminConfig',
 ]
 
 MIDDLEWARE = [
@@ -178,3 +181,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = 'media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+APPEND_SLASH = False
