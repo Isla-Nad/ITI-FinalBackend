@@ -142,15 +142,30 @@ def booked_appointments_doctor(request, id):
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
-def appointment_book_doctor(request, id):
+def appointment_book_reject(request, id):
     doctor = request.user
     appointment = get_object_or_404(Appointment, id=id)
     if not doctor.is_doctor:
         return Response({"detail": "You must be a doctor to reject appointments."}, status=status.HTTP_403_FORBIDDEN)
-    if appointment.is_booked:
+    if appointment.is_booked and not appointment.is_accepted:
         appointment.is_booked = False
         appointment.patient = None
         appointment.save()
         return Response({"detail": "Appointment rejected successfully."}, status=status.HTTP_200_OK)
     else:
-        return Response({"detail": "This appointment is already rejected."}, status=status.HTTP_403_FORBIDDEN)
+        return Response({"detail": "This appointment is already accepted."}, status=status.HTTP_403_FORBIDDEN)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def appointment_book_accept(request, id):
+    doctor = request.user
+    appointment = get_object_or_404(Appointment, id=id)
+    if not doctor.is_doctor:
+        return Response({"detail": "You must be a doctor to accept appointments."}, status=status.HTTP_403_FORBIDDEN)
+    if appointment.is_booked and not appointment.is_accepted:
+        appointment.is_accepted = True
+        appointment.save()
+        return Response({"detail": "Appointment accepted successfully."}, status=status.HTTP_200_OK)
+    else:
+        return Response({"detail": "This appointment is already accepted."}, status=status.HTTP_403_FORBIDDEN)
