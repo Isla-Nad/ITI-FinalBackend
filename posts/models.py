@@ -11,6 +11,12 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    def all_comments(self):
+        comments = Comment.objects.filter(post=self.id)
+        return comments
+    def all_likes(self):
+        likes = Like.objects.filter(post=self.id).count()
+        return likes
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

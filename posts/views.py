@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render , HttpResponse
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from posts.models import Comment,Like,Post
@@ -16,3 +16,10 @@ class LikeViewSet(viewsets.ModelViewSet):
 class PostViewSet(viewsets.ModelViewSet):
     queryset= Post.objects.all()
     serializer_class = PostSerializer
+
+def show_comment(request):
+    post = Post.objects.get(id=1)
+    comments = post.all_comments
+    likes = post.all_likes
+    context = {'post':post,'comments':comments,'likes':likes}
+    return render(request,'test.html',context)
