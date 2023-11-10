@@ -1,4 +1,4 @@
-from clinics.models import Clinic,Cases
+from clinics.models import Clinic,Cases,ClinicImages
 from rest_framework import serializers
 
 
@@ -21,4 +21,11 @@ class ClinicSerializer(serializers.ModelSerializer):
 class CaseSerializer(serializers.ModelSerializer):  
     class Meta:
         model = Cases
+        fields = "__all__"
+        
+        
+        
+class ClinicImageSerializer(serializers.ModelSerializer):  
+    class Meta:
+        model = ClinicImages
         fields = "__all__"

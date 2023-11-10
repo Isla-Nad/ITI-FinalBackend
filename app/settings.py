@@ -39,16 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts.apps.AccountsConfig',
-    'community.apps.CommunityConfig',
-    'appointments.apps.AppointmentsConfig',
-    'medicalHistory.apps.MedicalhistoryConfig',
     'django_cleanup.apps.CleanupConfig',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
+    'accounts.apps.AccountsConfig',
+    'community.apps.CommunityConfig',
+    'appointments.apps.AppointmentsConfig',
+    'medical_history.apps.MedicalHistoryConfig',
     'clinics.apps.ClinicsConfig',
-    # 'django.contrib.gis'
+    'posts.apps.PostsConfig',
+    'custom_admin.apps.CustomAdminConfig',
 ]
 
 MIDDLEWARE = [
