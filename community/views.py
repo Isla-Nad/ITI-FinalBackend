@@ -1,12 +1,14 @@
 from accounts.models import User
 from accounts.serializers import UserSerializer
-from community.models import Review
+from community.models import Post, Review
 from community.serializers import ReviewSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+
+from medical_history.serializers import PostSerializer
 
 
 @api_view(['GET'])
@@ -75,4 +77,48 @@ def review_edit(request, id):
             'reviewing_user': reviewing_user_serializer.data
         }
         return Response(data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def post_list(request):
+    posts = Post.objects.all().order_by('-created_at')
+    serializer = PostSerializer(posts, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def post_add(request):
+    user = request.user
+    serializer = PostSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(user=user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def post_delete(request, id):
+    user = request.user
+    post = get_object_or_404(Post, id=id)
+    if post.user != user:
+        return Response({"detail": "You do not have permission to delete this post."}, status=status.HTTP_403_FORBIDDEN)
+    post.delete()
+    return Response({"detail": "Review deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def post_edit(request, id):
+    user = request.user
+    post = get_object_or_404(Post, id=id)
+    if post.user != user:
+        return Response({"detail": "You do not have permission to edit this post."}, status=status.HTTP_403_FORBIDDEN)
+    serializer = PostSerializer(
+        instance=post, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

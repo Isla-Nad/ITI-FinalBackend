@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'appointments.apps.AppointmentsConfig',
     'medical_history.apps.MedicalHistoryConfig',
     'clinics.apps.ClinicsConfig',
-    'posts.apps.PostsConfig',
     'custom_admin.apps.CustomAdminConfig',
 ]
 
