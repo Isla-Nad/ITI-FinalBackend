@@ -38,7 +38,45 @@
               </div>
             </div>
           </div>
-        
+          <div class="col-16">
+            <div class="card mb-4">
+              <div class="card-body">
+                <h2 class="card-title text-center display-5">Clinics</h2>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item d-flex justify-content-between">
+                    <a href="{% url 'clinics_list' %}" class="text-primary text-decoration-none"><span class="fw-bold">Clinics</span></a>
+                    <span class="badge bg-secondary">{{clinicscount}}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-16">
+            <div class="card mb-4">
+              <div class="card-body">
+                <h2 class="card-title text-center display-5">Clinics Cases</h2>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item d-flex justify-content-between">
+                    <a href="{% url 'clinics_cases_list' %}" class="text-primary text-decoration-none"><span class="fw-bold">Clinic Cases</span></a>
+                    <span class="badge bg-secondary">{{cliniccasesscount}}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-16">
+            <div class="card mb-4">
+              <div class="card-body">
+                <h2 class="card-title text-center display-5">Clinics Images</h2>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item d-flex justify-content-between">
+                    <a href="{% url 'clinics_images_list' %}" class="text-primary text-decoration-none"><span class="fw-bold">Clinic Images</span></a>
+                    <span class="badge bg-secondary">{{clinicimagescount}}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
           <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
     </body>
 </html>
