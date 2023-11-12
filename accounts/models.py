@@ -4,6 +4,8 @@ from django.utils.translation import gettext_lazy as _
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from clinics.models import Clinic
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -42,7 +44,7 @@ class User(AbstractUser, PermissionsMixin):
     is_doctor = models.BooleanField(_('doctor status'), default=False)
     phone = models.CharField(
         max_length=15, help_text="Enter an Egyptian phone number (e.g., +201234567890)")
-    clinic = models.CharField(max_length=100, blank=True, null=True)
+    clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE)
 
     objects = CustomUserManager()
     USERNAME_FIELD = 'email'
