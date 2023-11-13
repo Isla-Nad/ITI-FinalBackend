@@ -41,6 +41,19 @@
           <div class="col-16">
             <div class="card mb-4">
               <div class="card-body">
+                <h2 class="card-title text-center display-5">Reviews</h2>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item d-flex justify-content-between">
+                    <a href="{% url 'reviewlist' %}" class="text-primary text-decoration-none"><span class="fw-bold">Reviews</span></a>
+                    <span class="badge bg-secondary">{{reviewcount}}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-16">
+            <div class="card mb-4">
+              <div class="card-body">
                 <h2 class="card-title text-center display-5">Clinics</h2>
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item d-flex justify-content-between">

@@ -4,6 +4,7 @@ from custom_admin.views import PostsListView,PostDetialView,PostCreateView,PostD
 from custom_admin.views import get_all_clinics,ClinicCreateView,ClinicDeleteView,ClinicUpdateView
 from custom_admin.views import get_all_clinic_cases,ClinicCaseCreateView,ClinicCaseDeleteView,ClinicCaseUpdateView
 from custom_admin.views import get_all_clinic_images,ClinicImageCreateView,ClinicImageDeleteView,ClinicImagesUpdateView
+from custom_admin.views import ReviwListView,ReviewDetialView,ReviewCreateView,ReviewDeleteView
 urlpatterns = [
      path('admin_home/', admin, name='admin_home'),
      path('allmedical',ViewMedicalHistory,name='allmedical'),
@@ -31,4 +32,9 @@ urlpatterns = [
 
 
 
-
+urlpatterns += [
+     path('reviewlist', ReviwListView.as_view(), name='reviewlist'),
+     path('review/<int:pk>', ReviewDetialView.as_view(), name='reviewdetial'),
+     path('createreview', ReviewCreateView.as_view(), name='reviewcreate'),
+     path('deletereview/<int:pk>', ReviewDeleteView.as_view(), name='reviewdelete'),
+]
