@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView, UpdateView, CreateView, DeleteView, ListView
 from medical_history.models import MedicalHistory
 from medical_history.forms import Medical,MedicalUpdate
-from posts.models import Post
+from community.models import Post
 from clinics.models import Clinic,ClinicImages,Cases
 from community.models import Review
 
