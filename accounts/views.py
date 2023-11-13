@@ -93,16 +93,20 @@ def get_user(request):
 def get_profile(request, id):
     user = get_object_or_404(User, id=id)
     profile = UserProfile.objects.get(id=user.id)
-    clinic = get_object_or_404(Clinic, id=user.clinic.id)
+
+    clinic_data = {}
+    if user.clinic:
+        clinic = get_object_or_404(Clinic, id=user.clinic.id)
+        clinic_serializer = ClinicSerializer(clinic)
+        clinic_data = clinic_serializer.data
 
     user_serializer = UserSerializer(user)
     profile_serializer = UserProfileSerializer(profile)
-    clinic_serializer = ClinicSerializer(clinic)
 
     combined_serializer = {
         **user_serializer.data,
         **profile_serializer.data,
-        'clinic_data': clinic_serializer.data,
+        'clinic_data': clinic_data,
     }
     return Response(combined_serializer, status=status.HTTP_200_OK)
 
