@@ -84,7 +84,16 @@ def review_edit(request, id):
 def post_list(request):
     posts = Post.objects.all().order_by('-created_at')
     serializer = PostSerializer(posts, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+
+    data_with_user = []
+    for post_data in serializer.data:
+        user_id = post_data['user']
+        user = get_object_or_404(User, id=user_id)
+        user_serializer = UserSerializer(user)
+        post_data['user'] = user_serializer.data
+        data_with_user.append(post_data)
+
+    return Response(data_with_user, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
