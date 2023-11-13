@@ -44,7 +44,7 @@ class User(AbstractUser, PermissionsMixin):
     is_doctor = models.BooleanField(_('doctor status'), default=False)
     phone = models.CharField(
         max_length=15, help_text="Enter an Egyptian phone number (e.g., +201234567890)")
-    clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE, null=True)
+    clinic = models.ForeignKey(Clinic, null=True, blank=True, on_delete=models.CASCADE)
 
     objects = CustomUserManager()
     USERNAME_FIELD = 'email'

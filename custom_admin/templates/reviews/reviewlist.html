@@ -1,0 +1,47 @@
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" />
+    </head>
+    <body>
+        <h1 class="text-center text-dark mb-4">Reviews</h1>
+        <div class="container">
+        <a href="{% url 'reviewcreate' %}" class="btn btn-success">Create Review</a>
+        <table class="table">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Reviewing User</th>
+                <th scope="col">Doctor</th>
+                <th scope="col">Rating</th>
+                <th scope="col">Comment</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for review in Reviews%}
+            <tr>
+                <th scope="row">{{review.id}}</th>
+                <td>{{review.reviewing_user }}</td>
+                <td>{{review.reviewed_user}}</td>
+                <td>{{review.rating}}</td>
+                <td>{{review.comment}}</td>
+                <td>
+                    <a href="{% url "reviewdetial" review.id %}" class="btn btn-primary">View</a>
+                    <a href="{% url "reviewdelete" review.id %}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+    
+            </tbody>
+        </table>
+        <a href="{% url 'admin_home' %}" class="btn btn-dark">Back</a>
+        </div>
+        <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+    </body>
+</html>
