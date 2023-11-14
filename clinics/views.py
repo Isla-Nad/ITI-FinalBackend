@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from accounts.models import UserProfile
+from accounts.serializers import UserProfileSerializer, UserSerializer
 from clinics.models import Clinic, Cases, ClinicImages
 from clinics.serializers import ClinicSerializer, CaseSerializer, ClinicImageSerializer
 from rest_framework import status
@@ -12,7 +14,8 @@ def index(request):
         clinic = Clinic.objects.create(name=request.data['name'],
                                        desc=request.data['desc'],
                                        image=request.data['image'],
-                                       address=request.data['address']
+                                       address=request.data['address'],
+                                       phone=request.data['phone']
                                        )
         clinic.save()
         return Response({'clinic': ClinicSerializer(clinic).data})
@@ -30,13 +33,22 @@ def show(request, id):
     clinic = Clinic.objects.get(id=id)
     cases_for_clinic = Cases.objects.filter(clinic_id=id)
     images_for_clinic = ClinicImages.objects.filter(clinic_id=id)
+    doctors_for_clinic = clinic.user_set.filter(is_doctor=True)
 
-    # Serialize the clinic and cases queryset as dictionaries
     clinic_data = ClinicSerializer(clinic).data
     cases_data = CaseSerializer(cases_for_clinic, many=True).data
     images_data = ClinicImageSerializer(images_for_clinic, many=True).data
+    profiles = UserProfile.objects.filter(user__in=doctors_for_clinic)
 
-    return Response({'clinic': clinic_data, 'cases': cases_data, 'images': images_data})
+    doctor_data = []
+    for doctor in doctors_for_clinic:
+        user_serializer = UserSerializer(doctor)
+        profile = profiles.filter(user=doctor).first()
+        profile_serializer = UserProfileSerializer(profile)
+        combined_data = {**user_serializer.data, **profile_serializer.data}
+        doctor_data.append(combined_data)
+
+    return Response({'clinic': clinic_data, 'cases': cases_data, 'images': images_data, 'doctors': doctor_data})
 
 
 @api_view(['POST'])
