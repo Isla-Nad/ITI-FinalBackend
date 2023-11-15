@@ -3,36 +3,38 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>All medical history</title>
+        <title>Comments Management</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" />
     </head>
     <body>
-        <h1 class="text-center text-dark mb-4">Medical History</h1>
+        <h1 class="text-center text-dark mb-4">Comments Management</h1>
         <div class="container">
-        <a href="{% url 'medical_create' %}" class="btn btn-success">Create Patient</a>
+        <!-- <a href="{% url 'medical_create' %}" class="btn btn-success">Create Comment</a> -->
         <table class="table">
             <thead class="table-dark">
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Patient name</th>
-                <th scope="col">Date of Visit</th>
-                <th scope="col">Doctor</th>
+                <th scope="col">comment </th>
+                <th scope="col">created at</th>
                 <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
-                {% for data in medical%}
+                {% for data in comments%}
               <tr>
                 <th scope="row">{{data.id}}</th>
-                <td>{{data.patient_name }}</td>
-                <td>{{data.date_of_visit}}</td>
-                <td>{{data.doctor.first_name}}</td>
-                <td>
+                <td>{{data.text }}</td>
+                <td>{{data.created_at}}</td>
+                <!-- <td>
                     <a href="{% url 'medical_detail' data.id %}" class="btn btn-primary">View</a>
                     <a href="{% url 'medical_update' data.id %}" class="btn btn-info">Update</a>
                     <a href="{% url 'medical_delete' data.id %}" class="btn btn-danger">Delete</a>
+                </td> -->
+                <td>
+                    <a href="{% url 'comment_detail' data.id %}" class="btn btn-primary">View</a>
+                    <a href="{% url 'comment_delete' data.id %}" class="btn btn-danger">Delete</a>
                 </td>
               </tr>
               {% endfor %}

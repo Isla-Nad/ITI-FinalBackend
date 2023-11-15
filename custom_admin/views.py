@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView, UpdateView, CreateView, DeleteView, ListView
 from medical_history.models import MedicalHistory
 from medical_history.forms import Medical,MedicalUpdate
-from community.models import Post
+from community.models import Post,Comment
 from clinics.models import Clinic,ClinicImages,Cases
 from community.models import Review
 
@@ -13,11 +13,12 @@ from community.models import Review
 def admin(request):
     Medical_count = MedicalHistory.objects.count()
     posts_count = Post.objects.count()
+    comments_count=Comment.objects.count()
     reviews_count = Review.objects.count()
     clinics_count = Clinic.objects.count()
     clinics_cases_count = Cases.objects.count()
     clinics_images_count = ClinicImages.objects.count()
-    return render(request,'admin.html',context={"medical_count":Medical_count,"reviewcount":reviews_count,"postscount":posts_count,"clinicscount":clinics_count,"cliniccasesscount":clinics_cases_count,"clinicimagescount":clinics_images_count})
+    return render(request,'admin.html',context={"medical_count":Medical_count,"reviewcount":reviews_count,"comments_count":comments_count,"postscount":posts_count,"clinicscount":clinics_count,"cliniccasesscount":clinics_cases_count,"clinicimagescount":clinics_images_count})
 
 def ViewMedicalHistory(request):
     medical = MedicalHistory.objects.all()
@@ -74,6 +75,29 @@ class PostDeleteView(DeleteView):
     model = Post
     template_name = 'posts/confirm_delete.html'
     success_url = reverse_lazy('postslist')
+#comments*******************************************************
+def ViewComments(request):
+    comments = Comment.objects.all()
+    return render(request, 'comments/commentslist.html', context={'comments': comments})
+
+class CommentDetailView(DetailView):
+    model = Comment
+    template_name = 'comments/viewcomment.html'
+    context_object_name = 'selected'
+
+class CommentCreateView(CreateView):
+    model = Comment
+    template_name = 'comments/createcomment.html'
+    fields = '__all__'
+    success_url = reverse_lazy('commentslist')
+
+
+class CommentDeleteView(DeleteView):
+    model = Comment
+    template_name = 'comments/confirmdelete.html'
+    success_url = reverse_lazy('commentslist')
+
+#********************************************************************
 
 
 # Clinics in the admin panel

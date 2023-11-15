@@ -32,8 +32,8 @@
                 <td>{{post.image.url}}</td>
                 <td>{{post.created_at}}</td>
                 <td>
-                    <a href="{% url "postdetial" post.id %}" class="btn btn-primary">View</a>
-                    <a href="{% url "postdelete" post.id %}" class="btn btn-danger">Delete</a>
+                    <a href="{% url 'postdetial' post.id %}" class="btn btn-primary">View</a>
+                    <a href="{% url 'postdelete' post.id %}" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
             {% endfor %}
