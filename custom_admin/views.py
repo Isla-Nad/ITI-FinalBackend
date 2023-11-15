@@ -114,7 +114,7 @@ class PostDeleteView(DeleteView):
 # comments*******************************************************
 
 
-@method_decorator(user_passes_test(is_admin), name='dispatch')
+@user_passes_test(is_admin)
 def ViewComments(request):
     comments = Comment.objects.all()
     return render(request, 'comments/commentslist.html', context={'comments': comments})
@@ -146,6 +146,7 @@ class CommentDeleteView(DeleteView):
 
 # Clinics in the admin panel
 
+@user_passes_test(is_admin)
 def get_all_clinics(request):
     clinics = Clinic.objects.all()
     return render(request, 'clinics/clinics_list.html', {'clinics': clinics})
@@ -175,6 +176,7 @@ class ClinicUpdateView(UpdateView):
 
 
 # Clinic Cases in the admin panel
+@user_passes_test(is_admin)
 def get_all_clinic_cases(request):
     cases = Cases.objects.all()
     return render(request, 'clinicscases/cases_list.html', {'cases': cases})
@@ -204,6 +206,7 @@ class ClinicCaseUpdateView(UpdateView):
 
 
 # Clinic Images in the admin panel
+@user_passes_test(is_admin)
 def get_all_clinic_images(request):
     clinicimages = ClinicImages.objects.all()
     return render(request, 'clinicsimages/images_list.html', {'clinicimages': clinicimages})
