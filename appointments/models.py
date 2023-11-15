@@ -21,4 +21,8 @@ class Appointment(models.Model):
         unique_together = ['appointment_date', 'start_time', 'end_time']
 
     def __str__(self):
-        return f"Appointment with {self.doctor.first_name} on {self.appointment_date}"
+        status = "Booked" if self.is_booked else "Available"
+        patient_name = self.patient.get_full_name() if self.patient else "Not booked yet"
+        acceptance_status = "Accepted" if self.is_accepted else "Pending"
+
+        return f"Appointment with Dr. {self.doctor.last_name} on {self.appointment_date} ({self.start_time} - {self.end_time}): {status}. Patient: {patient_name}. Status: {acceptance_status}"

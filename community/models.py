@@ -36,7 +36,7 @@ class Post(models.Model):
         return comments
 
     def all_likes(self):
-        likes = Like.objects.filter(post=self.id).count()
+        likes = Like.objects.filter(post=self.id)
         return likes
 
 

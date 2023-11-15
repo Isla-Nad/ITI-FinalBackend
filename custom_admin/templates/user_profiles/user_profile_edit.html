@@ -1,0 +1,11 @@
+{% extends 'layouts/base.html' %} {% load static %} {% block title %}Edit Profile{% endblock %} {% block content %}
+<div class="shadow w-50 m-auto mt-5 border rounded-5">
+  <h2 class="shadow p-4 rounded-5">Edit Profile of {{user.first_name }} {{user.last_name }}</h2>
+  <form method="post" enctype="multipart/form-data" class="p-3">
+    {% csrf_token %} {{ user_profile_form.as_p }} {{ certificates_formset.management_form }} {% for form in certificates_formset.forms %} {{ form.as_p }} {% endfor %} {{ cases_formset.management_form }} {% for form in cases_formset.forms %} {{ form.as_p }} {% endfor %}
+    <input type="submit" name="profile" class="btn btn-outline-success form-control mt-3" value="Update Profile" />
+  </form>
+</div>
+<script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+<script src="{% static 'javascript/script.js'%}"></script>
+{% endblock%}

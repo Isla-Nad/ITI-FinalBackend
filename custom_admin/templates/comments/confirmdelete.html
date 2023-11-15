@@ -1,25 +1,12 @@
-{% load static %}
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>comment confirm delete</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" />
-    </head>
-    <body>
-     
-        <h1 class="text-center text-dark mb-4"> Delete Comment</h1>
-        <div class="container">
-            <p>Are you sure you want to delete comment "{{ object }}"?</p>
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger">Delete</button>
-            </form>
-        <a href="{% url 'commentslist' %}" class="btn btn-dark">Back</a>
-    </div>
-        <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
-        <script src="{% static 'javascript/script.js'%}"></script>
-    </body>
-</html>
+{% extends 'layouts/base.html' %} {% load static %} {% block title %}Delete Comment{% endblock %} {% block content %}
+<div class="shadow w-50 m-auto mt-5 border rounded-5">
+  <h2 class="shadow p-4 rounded-5">Delete Comment</h2>
+  <p class="text-center text-danger-emphasis">Are you sure you want to delete this comment?</p>
+  <form method="post" enctype="multipart/form-data" class="d-flex justify-content-center gap-3 p-3">
+    {% csrf_token %}
+    <button type="submit" name="comment" class="btn btn-outline-danger mt-3">Delete</button>
+    <a href="{% url 'commentslist' %}" name="comment" class="btn btn-outline-success mt-3">Cancel</a>
+  </form>
+</div>
+<script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+{% endblock%}

@@ -1,7 +1,10 @@
 
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView, UpdateView, CreateView, DeleteView, ListView
+from accounts.models import User, UserProfile
+from appointments.models import Appointment
+from custom_admin.forms import CasesFormSet, CertificatesFormSet, UserChangeForm, UserForm, UserProfileForm
 from medical_history.models import MedicalHistory
 from medical_history.forms import Medical, MedicalUpdate
 from community.models import Post, Comment
@@ -11,6 +14,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.utils.decorators import method_decorator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def is_admin(user):
@@ -35,8 +39,14 @@ def admin_login(request):
         return render(request, 'login.html')
 
 
+def admin_logout(request):
+    logout(request)
+    return redirect(reverse('admin_login'))
+
+
 @user_passes_test(is_admin)
 def admin(request):
+    user_count = User.objects.count()
     Medical_count = MedicalHistory.objects.count()
     posts_count = Post.objects.count()
     comments_count = Comment.objects.count()
@@ -44,12 +54,158 @@ def admin(request):
     clinics_count = Clinic.objects.count()
     clinics_cases_count = Cases.objects.count()
     clinics_images_count = ClinicImages.objects.count()
-    return render(request, 'admin.html', context={"medical_count": Medical_count, "reviewcount": reviews_count, "comments_count": comments_count, "postscount": posts_count, "clinicscount": clinics_count, "cliniccasesscount": clinics_cases_count, "clinicimagescount": clinics_images_count})
+    return render(request, 'admin.html', context={'user_count': user_count, "medical_count": Medical_count, "reviewcount": reviews_count, "comments_count": comments_count, "postscount": posts_count, "clinicscount": clinics_count, "cliniccasesscount": clinics_cases_count, "clinicimagescount": clinics_images_count})
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# users
+
+
+@user_passes_test(is_admin)
+def users_list(request):
+    user_list = User.objects.all()
+    paginator = Paginator(user_list, 5)
+    page = request.GET.get('page')
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
+    return render(request, 'users/users_list.html', context={'users': users})
+
+
+@user_passes_test(is_admin)
+def user_create(request):
+    if request.method == "POST":
+        user_form = UserForm(request.POST)
+        if user_form.is_valid():
+            user = user_form.save(commit=False)
+            user.save()
+            return redirect('users_list')
+    else:
+        user_form = UserForm()
+    return render(request, 'users/user_create.html', context={'user_form': user_form})
+
+
+@user_passes_test(is_admin)
+def user_edit(request, id):
+    user_to_edit = get_object_or_404(User, id=id)
+    if request.method == 'POST':
+        user_form = UserChangeForm(
+            request.POST, request.FILES, instance=user_to_edit)
+        if user_form.is_valid():
+            user_form.save()
+            return redirect('users_list')
+    else:
+        user_form = UserChangeForm(instance=user_to_edit)
+    return render(request, 'users/user_edit.html', context={'user_form': user_form, 'user': user_to_edit})
+
+
+@user_passes_test(is_admin)
+def user_delete(request, id):
+    user_to_delete = get_object_or_404(User, id=id)
+    if user_to_delete == request.user:
+        return redirect('users_list')
+    elif request.method == 'POST':
+        user_to_delete.delete()
+        return redirect('users_list')
+    return render(request, 'users/user_delete.html')
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# user_profiles
+
+
+@user_passes_test(is_admin)
+def user_profiles_list(request):
+    user_profiles_list = UserProfile.objects.all()
+    paginator = Paginator(user_profiles_list, 5)
+    page = request.GET.get('page')
+    try:
+        user_profiles = paginator.page(page)
+    except PageNotAnInteger:
+        user_profiles = paginator.page(1)
+    except EmptyPage:
+        user_profiles = paginator.page(paginator.num_pages)
+
+    return render(request, 'user_profiles/user_profiles_list.html', context={'user_profiles': user_profiles})
+
+
+@user_passes_test(is_admin)
+def user_profile_edit(request, id):
+    user_profile_to_edit = get_object_or_404(UserProfile, id=id)
+    user = get_object_or_404(User, id=user_profile_to_edit.id)
+
+    if request.method == 'POST':
+        user_profile_form = UserProfileForm(
+            request.POST, request.FILES, instance=user_profile_to_edit)
+        certificates_formset = CertificatesFormSet(
+            request.POST, request.FILES, instance=user_profile_to_edit)
+        cases_formset = CasesFormSet(
+            request.POST, request.FILES, instance=user_profile_to_edit)
+
+        if user_profile_form.is_valid() and certificates_formset.is_valid() and cases_formset.is_valid():
+            user_profile_form.save()
+            certificates_formset.save()
+            cases_formset.save()
+            return redirect('user_profiles_list')
+    else:
+        user_profile_form = UserProfileForm(instance=user_profile_to_edit)
+        certificates_formset = CertificatesFormSet(
+            instance=user_profile_to_edit)
+        cases_formset = CasesFormSet(instance=user_profile_to_edit)
+
+    return render(request, 'user_profiles/user_profile_edit.html', context={
+        'user': user,
+        'user_profile_form': user_profile_form,
+        'certificates_formset': certificates_formset if user.is_doctor else None,
+        'cases_formset': cases_formset if user.is_doctor else None,
+    })
+
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# appointments
+
+@user_passes_test(is_admin)
+def appointments_list(request):
+    appointments_list = Appointment.objects.all()
+    paginator = Paginator(appointments_list, 5)
+    page = request.GET.get('page')
+    try:
+        appointments = paginator.page(page)
+    except PageNotAnInteger:
+        appointments = paginator.page(1)
+    except EmptyPage:
+        appointments = paginator.page(paginator.num_pages)
+
+    return render(request, 'appointments/appointments_list.html', context={'appointments': appointments})
+
+
+def appointment_delete(request, id):
+    appointment_to_delete = get_object_or_404(Appointment, id=id)
+    if request.method == 'POST':
+        if not appointment_to_delete.is_accepted:
+            appointment_to_delete.delete()
+            messages.success(request, 'Appointment deleted successfully.')
+        else:
+            messages.error(request, 'Cannot delete an accepted appointment.')
+            return render(request, 'appointments/appointment_delete.html')
+
+        return redirect('appointments_list')
+    return render(request, 'appointments/appointment_delete.html')
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# medical_history
 
 
 @user_passes_test(is_admin)
 def ViewMedicalHistory(request):
-    medical = MedicalHistory.objects.all()
+    medical_list = MedicalHistory.objects.all()
+    paginator = Paginator(medical_list, 5)
+    page = request.GET.get('page')
+    try:
+        medical = paginator.page(page)
+    except PageNotAnInteger:
+        medical = paginator.page(1)
+    except EmptyPage:
+        medical = paginator.page(paginator.num_pages)
     return render(request, 'medical_history/allmedical.html', context={'medical': medical})
 
 
@@ -82,13 +238,22 @@ class MedicalDeleteView(DeleteView):
     template_name = 'medical_history/confirm_delete.html'
     success_url = reverse_lazy('allmedical')
 
-
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # posts in the admin panel
-@method_decorator(user_passes_test(is_admin), name='dispatch')
-class PostsListView(ListView):
-    model = Post
-    context_object_name = 'posts'
-    template_name = 'posts/postslist.html'
+
+
+@user_passes_test(is_admin)
+def posts_list(request):
+    posts_list = Post.objects.all()
+    paginator = Paginator(posts_list, 5)
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    return render(request, 'posts/postslist.html', context={'posts': posts})
 
 
 @method_decorator(user_passes_test(is_admin), name='dispatch')
@@ -116,7 +281,15 @@ class PostDeleteView(DeleteView):
 
 @user_passes_test(is_admin)
 def ViewComments(request):
-    comments = Comment.objects.all()
+    comments_list = Comment.objects.all()
+    paginator = Paginator(comments_list, 5)
+    page = request.GET.get('page')
+    try:
+        comments = paginator.page(page)
+    except PageNotAnInteger:
+        comments = paginator.page(1)
+    except EmptyPage:
+        comments = paginator.page(paginator.num_pages)
     return render(request, 'comments/commentslist.html', context={'comments': comments})
 
 
@@ -235,11 +408,21 @@ class ClinicImagesUpdateView(UpdateView):
     success_url = reverse_lazy('clinics_images_list')
 
 
-@method_decorator(user_passes_test(is_admin), name='dispatch')
-class ReviwListView(ListView):
-    model = Review
-    context_object_name = 'Reviews'
-    template_name = 'reviews/reviewlist.html'
+# ********************************************************************
+# reviews
+
+@user_passes_test(is_admin)
+def reviews_list(request):
+    reviews_list = Review.objects.all()
+    paginator = Paginator(reviews_list, 5)
+    page = request.GET.get('page')
+    try:
+        reviews = paginator.page(page)
+    except PageNotAnInteger:
+        reviews = paginator.page(1)
+    except EmptyPage:
+        reviews = paginator.page(paginator.num_pages)
+    return render(request, 'reviews/reviewlist.html', context={'reviews': reviews})
 
 
 @method_decorator(user_passes_test(is_admin), name='dispatch')

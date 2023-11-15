@@ -19,7 +19,7 @@ from django.urls import include, path
 from django.conf.urls.static import static
 from django.conf import settings
 
-from custom_admin.views import admin_login
+from custom_admin.views import admin_login, admin_logout
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,5 +31,6 @@ urlpatterns = [
     path('medical/', include('medical_history.urls')),
     path('custom_admin/', include('custom_admin.urls')),
     path('', admin_login, name='admin_login'),
+    path('admin_logout/', admin_logout, name='admin_logout')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

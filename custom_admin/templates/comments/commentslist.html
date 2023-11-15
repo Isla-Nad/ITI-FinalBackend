@@ -1,48 +1,50 @@
-{% load static %}
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Comments Management</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" />
-    </head>
-    <body>
-        <h1 class="text-center text-dark mb-4">Comments Management</h1>
-        <div class="container">
-        <!-- <a href="{% url 'medical_create' %}" class="btn btn-success">Create Comment</a> -->
-        <table class="table">
-            <thead class="table-dark">
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">comment </th>
-                <th scope="col">created at</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-                {% for data in comments%}
-              <tr>
-                <th scope="row">{{data.id}}</th>
-                <td>{{data.text }}</td>
-                <td>{{data.created_at}}</td>
-                <!-- <td>
-                    <a href="{% url 'medical_detail' data.id %}" class="btn btn-primary">View</a>
-                    <a href="{% url 'medical_update' data.id %}" class="btn btn-info">Update</a>
-                    <a href="{% url 'medical_delete' data.id %}" class="btn btn-danger">Delete</a>
-                </td> -->
-                <td>
-                    <a href="{% url 'comment_detail' data.id %}" class="btn btn-primary">View</a>
-                    <a href="{% url 'comment_delete' data.id %}" class="btn btn-danger">Delete</a>
-                </td>
-              </tr>
-              {% endfor %}
-              
-            </tbody>
-          </table>
-          <a href="{% url 'admin_home' %}" class="btn btn-dark">Back</a>
-        </div>
-        <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
-    </body>
-</html>
+{% extends 'layouts/base.html' %} {% load static %} {% block title %}Comments{% endblock %} {% block content %}
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
+
+<div class="container my-4">
+  <div class="shadow p-2 rounded-5 text-center my-5 bg-dark-subtle position-relative">
+    <a class="position-absolute fs-3 text-black" style="left: 1%" href="{% url 'admin_home' %}">🔙</a>
+    <h2 class="text-center">Comments</h2>
+  </div>
+  <div class="row grid-header">
+    <div class="grid-col col-1">#</div>
+    <div class="grid-col col-2">user</div>
+    <div class="grid-col col-2">post</div>
+    <div class="grid-col col-5">comment</div>
+    <div class="grid-col col-2">Actions</div>
+  </div>
+  {% for comment in comments %}
+  <div key="{{ comment.id }}" class="grid-row">
+    <div class="grid-col col-1 border-end border-secondary">{{ forloop.counter }}</div>
+    <div class="grid-col col-2 border-end border-secondary">{{ comment.user.first_name }}</div>
+    <div class="grid-col col-2 border-end border-secondary">{{ comment.post.title }}</div>
+    <div class="grid-col col-5 border-end border-secondary">{{ comment.text }}</div>
+    <div class="grid-col col-2 gap-2 d-flex">
+      {% comment %} <a href="{% url 'comment_detail' comment.id %}" name="comment_detail" class="btn btn-warning text-light mx-1">View</a> {% endcomment %}
+      <a href="{% url 'comment_delete' comment.id %}" name="comment_delete" class="btn btn-danger text-light mx-1">Delete</a>
+    </div>
+    <hr />
+  </div>
+  {% endfor %}
+
+  <div class="d-flex justify-content-center my-4">
+    <ul class="pagination">
+      <span class="step-links">
+        {% if comments.has_previous %}
+        <a class="btn btn-sm btn-dark" href="?page=1">&laquo; first</a>
+        <a class="btn btn-sm btn-primary" href="?page={{ comments.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current"> Page {{ comments.number }} of {{ comments.paginator.num_pages }}. </span>
+
+        {% if comments.has_next %}
+        <a class="btn btn-sm btn-primary" href="?page={{ comments.next_page_number }}">next</a>
+        <a class="btn btn-sm btn-dark" href="?page={{ comments.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+      </span>
+    </ul>
+  </div>
+</div>
+
+<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+{% endblock %}

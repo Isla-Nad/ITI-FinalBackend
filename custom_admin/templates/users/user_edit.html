@@ -1,0 +1,47 @@
+{% extends 'layouts/base.html' %} {% load static %} {% block title %}Edit User{% endblock %} {% block content %}
+<div class="shadow w-50 m-auto mt-5 border rounded-5">
+  <h2 class="shadow p-4 rounded-5">Edit User</h2>
+  <form method="post" enctype="multipart/form-data" class="p-3">
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label for="{{ user_form.first_name.id_for_label }}" class="form-label">First Name</label>
+      {{ user_form.first_name }} {{ user_form.first_name.errors }}
+    </div>
+
+    <div class="mb-3">
+      <label for="{{ user_form.last_name.id_for_label }}" class="form-label">Last Name</label>
+      {{ user_form.last_name }} {{ user_form.last_name.errors }}
+    </div>
+
+    <div class="mb-3">
+      <label for="{{ user_form.is_staff.id_for_label }}" class="form-label">Is Staff</label>
+      {{ user_form.is_staff }} {{ user_form.is_staff.errors }}
+    </div>
+
+    <div class="mb-3">
+      <label for="{{ user_form.is_superuser.id_for_label }}" class="form-label">Is Superuser</label>
+      {{ user_form.is_superuser }} {{ user_form.is_superuser.errors }}
+    </div>
+
+    <div class="mb-3">
+      <label for="{{ user_form.is_doctor.id_for_label }}" class="form-label">Is Doctor</label>
+      {{ user_form.is_doctor }} {{ user_form.is_doctor.errors }}
+    </div>
+
+    <div class="mb-3">
+      <label for="{{ user_form.phone.id_for_label }}" class="form-label">Phone</label>
+      {{ user_form.phone }} {{ user_form.phone.errors }}
+    </div>
+
+    <div class="mb-3">
+      <label for="{{ user_form.clinic.id_for_label }}" class="form-label">Clinic</label>
+      {{ user_form.clinic }} {{ user_form.clinic.errors }}
+    </div>
+
+    <input type="submit" name="user" class="btn btn-outline-success form-control mt-3" value="Update User" />
+  </form>
+</div>
+<script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+<script src="{% static 'javascript/script.js'%}"></script>
+{% endblock%}

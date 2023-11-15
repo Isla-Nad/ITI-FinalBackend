@@ -1,29 +1,24 @@
-{% extends 'layouts/base.html' %} {% load static %} {% block title %}Reviews{% endblock %} {% block content %}
+{% extends 'layouts/base.html' %} {% load static %} {% block title %}Users{% endblock %} {% block content %}
 <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
 
 <div class="container my-4">
   <div class="shadow p-2 rounded-5 text-center my-5 bg-dark-subtle position-relative">
     <a class="position-absolute fs-3 text-black" style="left: 1%" href="{% url 'admin_home' %}">🔙</a>
-    <h2 class="text-center">Reviews</h2>
+    <h2 class="text-center">Users</h2>
   </div>
+  <a href="{% url 'user_create' %}" class="btn btn-primary btn-sm add-button"> Add New User + </a>
   <div class="row grid-header">
     <div class="grid-col col-1">#</div>
-    <div class="grid-col col-2">Reviewing User</div>
-    <div class="grid-col col-2">Doctor</div>
-    <div class="grid-col col-1">Rating</div>
-    <div class="grid-col col-4">Comment</div>
-    <div class="grid-col col-2">Actions</div>
+    <div class="grid-col col-4">User Name</div>
+    <div class="grid-col col-7">Actions</div>
   </div>
-  {% for review in reviews %}
-  <div key="{{ review.id }}" class="grid-row">
+  {% for user in users %}
+  <div key="{{ user.id }}" class="grid-row">
     <div class="grid-col col-1 border-end border-secondary">{{ forloop.counter }}</div>
-    <div class="grid-col col-2 border-end border-secondary">{{review.reviewing_user }}</div>
-    <div class="grid-col col-2 border-end border-secondary">Dr. {{review.reviewed_user}}</div>
-    <div class="grid-col col-1 border-end border-secondary">{{review.rating}}</div>
-    <div class="grid-col col-4 border-end border-secondary">{{review.comment}}</div>
-    <div class="grid-col col-2 gap-2 d-flex">
-      {% comment %} <a href="{% url 'reviewdetial' review.id %}" name="reviewdetial" class="btn btn-info text-light mx-1">View</a> {% endcomment %}
-      <a href="{% url 'reviewdelete' review.id %}" name="reviewdelete" class="btn btn-danger text-light mx-1">Delete</a>
+    <div class="grid-col col-4 border-end border-secondary">{{ user.first_name }} {{ user.last_name }}</div>
+    <div class="grid-col col-7 gap-2 d-flex">
+      <a href="{% url 'user_edit' user.id %}" name="user_edit" class="btn btn-warning text-light mx-1">Edit</a>
+      <a href="{% url 'user_delete' user.id %}" name="user_delete" class="btn btn-danger text-light mx-1">Delete</a>
     </div>
     <hr />
   </div>
