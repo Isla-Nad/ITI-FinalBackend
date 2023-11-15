@@ -19,6 +19,8 @@ from django.urls import include, path
 from django.conf.urls.static import static
 from django.conf import settings
 
+from custom_admin.views import admin_login
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
@@ -28,4 +30,6 @@ urlpatterns = [
     path('appointments/', include('appointments.urls')),
     path('medical/', include('medical_history.urls')),
     path('custom_admin/', include('custom_admin.urls')),
+    path('', admin_login, name='admin_login'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,33 @@
+{% load static %}
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" />
+  </head>
+  <body>
+    <div class="shadow w-25 m-auto mt-5 border rounded-5">
+      <div class="shadow p-4 rounded-5"><h1 class="text-center">Administrator Login</h1></div>
+
+      <form method="post" class="container p-4" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group m-3">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" class="form-control" required />
+        </div>
+        <div class="form-group m-3">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" class="form-control" required />
+        </div>
+        {% if error_message %}
+        <div class="alert alert-danger">{{ error_message }}</div>
+        {% endif %}
+        <button type="submit" class="btn btn-outline-success form-control mt-3">Login</button>
+      </form>
+    </div>
+    <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+  </body>
+</html>

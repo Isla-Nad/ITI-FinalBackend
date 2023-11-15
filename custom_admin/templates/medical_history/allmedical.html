@@ -1,46 +1,45 @@
 {% load static %}
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>All medical history</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" />
-    </head>
-    <body>
-        <h1 class="text-center text-dark mb-4">Medical History</h1>
-        <div class="container">
-        <a href="{% url 'medical_create' %}" class="btn btn-success">Create Patient</a>
-        <table class="table">
-            <thead class="table-dark">
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Patient name</th>
-                <th scope="col">Date of Visit</th>
-                <th scope="col">Doctor</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-                {% for data in medical%}
-              <tr>
-                <th scope="row">{{data.id}}</th>
-                <td>{{data.patient_name }}</td>
-                <td>{{data.date_of_visit}}</td>
-                <td>{{data.doctor.first_name}}</td>
-                <td>
-                    <a href="{% url 'medical_detail' data.id %}" class="btn btn-primary">View</a>
-                    <a href="{% url 'medical_update' data.id %}" class="btn btn-info">Update</a>
-                    <a href="{% url 'medical_delete' data.id %}" class="btn btn-danger">Delete</a>
-                </td>
-              </tr>
-              {% endfor %}
-              
-            </tbody>
-          </table>
-          <a href="{% url 'admin_home' %}" class="btn btn-dark">Back</a>
-        </div>
-        <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
-    </body>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>All medical history</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" />
+  </head>
+  <body>
+    <h1 class="text-center text-dark mb-4">Medical History</h1>
+    <div class="container">
+      <a href="{% url 'medical_create' %}" class="btn btn-success">Create Patient</a>
+      <table class="table">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Patient name</th>
+            <th scope="col">Date of Visit</th>
+            <th scope="col">Doctor</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for data in medical%}
+          <tr>
+            <th scope="row">{{data.id}}</th>
+            <td>{{data.patient_name }}</td>
+            <td>{{data.date_of_visit}}</td>
+            <td>{{data.doctor.first_name}}</td>
+            <td>
+              <a href="{% url 'medical_detail' data.id %}" class="btn btn-primary">View</a>
+              <a href="{% url 'medical_update' data.id %}" class="btn btn-info">Update</a>
+              <a href="{% url 'medical_delete' data.id %}" class="btn btn-danger">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a href="{% url 'admin_home' %}" class="btn btn-dark">Back</a>
+    </div>
+    <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+  </body>
 </html>
