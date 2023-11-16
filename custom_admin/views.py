@@ -276,8 +276,10 @@ class PostDeleteView(DeleteView):
     model = Post
     template_name = 'posts/confirm_delete.html'
     success_url = reverse_lazy('postslist')
-# comments*******************************************************
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+
+#comments in admin panel
 
 @user_passes_test(is_admin)
 def ViewComments(request):
