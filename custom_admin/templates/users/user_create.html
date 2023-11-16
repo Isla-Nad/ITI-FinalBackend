@@ -1,6 +1,9 @@
 {% extends 'layouts/base.html' %} {% load static %} {% block title %}Create User{% endblock %} {% block content %}
 <div class="shadow w-50 m-auto mt-5 border rounded-5">
-  <h2 class="shadow p-4 rounded-5">Create User</h2>
+  <div class="d-flex justify-content-between shadow p-4 rounded-5">
+    <h2 class="">Create User</h2>
+    <a href="{% url 'users_list' %}" class="btn btn-dark">Back</a>
+  </div>
   <form method="post" enctype="multipart/form-data" class="p-3">
     {% csrf_token %}
     <div class="mb-3">

@@ -1,6 +1,9 @@
 {% extends 'layouts/base.html' %} {% load static %} {% block title %}Edit Profile{% endblock %} {% block content %}
 <div class="shadow w-50 m-auto mt-5 border rounded-5">
-  <h2 class="shadow p-4 rounded-5">Edit Profile of {{user.first_name }} {{user.last_name }}</h2>
+  <div class="d-flex justify-content-between shadow p-4 rounded-5">
+    <h2 class="">Edit Profile of {{user.first_name }} {{user.last_name }}</h2>
+    <a href="{% url 'user_profiles_list' %}" class="btn btn-dark">Back</a>
+  </div>
   <form method="post" enctype="multipart/form-data" class="p-3">
     {% csrf_token %} {{ user_profile_form.as_p }} {{ certificates_formset.management_form }} {% for form in certificates_formset.forms %} {{ form.as_p }} {% endfor %} {{ cases_formset.management_form }} {% for form in cases_formset.forms %} {{ form.as_p }} {% endfor %}
     <input type="submit" name="profile" class="btn btn-outline-success form-control mt-3" value="Update Profile" />
