@@ -47,6 +47,8 @@ def admin_logout(request):
 @user_passes_test(is_admin)
 def admin(request):
     user_count = User.objects.count()
+    profile_count = UserProfile.objects.count()
+    appointment_count = Appointment.objects.count()
     Medical_count = MedicalHistory.objects.count()
     posts_count = Post.objects.count()
     comments_count = Comment.objects.count()
@@ -54,7 +56,7 @@ def admin(request):
     clinics_count = Clinic.objects.count()
     clinics_cases_count = Cases.objects.count()
     clinics_images_count = ClinicImages.objects.count()
-    return render(request, 'admin.html', context={'user_count': user_count, "medical_count": Medical_count, "reviewcount": reviews_count, "comments_count": comments_count, "postscount": posts_count, "clinicscount": clinics_count, "cliniccasesscount": clinics_cases_count, "clinicimagescount": clinics_images_count})
+    return render(request, 'admin.html', context={'user_count': user_count, 'profile_count': profile_count, 'appointment_count': appointment_count, "medical_count": Medical_count, "reviewcount": reviews_count, "comments_count": comments_count, "postscount": posts_count, "clinicscount": clinics_count, "cliniccasesscount": clinics_cases_count, "clinicimagescount": clinics_images_count})
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # users
 
@@ -279,7 +281,7 @@ class PostDeleteView(DeleteView):
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-#comments in admin panel
+# comments in admin panel
 
 @user_passes_test(is_admin)
 def ViewComments(request):
@@ -323,7 +325,15 @@ class CommentDeleteView(DeleteView):
 
 @user_passes_test(is_admin)
 def get_all_clinics(request):
-    clinics = Clinic.objects.all()
+    clinics_list = Clinic.objects.all()
+    paginator = Paginator(clinics_list, 5)
+    page = request.GET.get('page')
+    try:
+        clinics = paginator.page(page)
+    except PageNotAnInteger:
+        clinics = paginator.page(1)
+    except EmptyPage:
+        clinics = paginator.page(paginator.num_pages)
     return render(request, 'clinics/clinics_list.html', {'clinics': clinics})
 
 
@@ -353,7 +363,15 @@ class ClinicUpdateView(UpdateView):
 # Clinic Cases in the admin panel
 @user_passes_test(is_admin)
 def get_all_clinic_cases(request):
-    cases = Cases.objects.all()
+    cases_list = Cases.objects.all()
+    paginator = Paginator(cases_list, 5)
+    page = request.GET.get('page')
+    try:
+        cases = paginator.page(page)
+    except PageNotAnInteger:
+        cases = paginator.page(1)
+    except EmptyPage:
+        cases = paginator.page(paginator.num_pages)
     return render(request, 'clinicscases/cases_list.html', {'cases': cases})
 
 
@@ -383,7 +401,15 @@ class ClinicCaseUpdateView(UpdateView):
 # Clinic Images in the admin panel
 @user_passes_test(is_admin)
 def get_all_clinic_images(request):
-    clinicimages = ClinicImages.objects.all()
+    clinicimages_list = ClinicImages.objects.all()
+    paginator = Paginator(clinicimages_list, 5)
+    page = request.GET.get('page')
+    try:
+        clinicimages = paginator.page(page)
+    except PageNotAnInteger:
+        clinicimages = paginator.page(1)
+    except EmptyPage:
+        clinicimages = paginator.page(paginator.num_pages)
     return render(request, 'clinicsimages/images_list.html', {'clinicimages': clinicimages})
 
 

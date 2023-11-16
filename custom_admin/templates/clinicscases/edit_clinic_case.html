@@ -1,24 +1,14 @@
-{% load static %}
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" />
-    </head>
-    <body>
-        <div class="container">
-            <h1 class="text-center text-dark mb-4">Edit Clinic Case</h1>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Update</button>
-</form>
-<a href="{% url 'clinics_cases_list' %}" class="btn btn-dark">Back</a>
+{% extends 'layouts/base.html' %} {% load static %} {% block title %}Edit Case{% endblock %} {% block content %}
+<div class="shadow w-50 m-auto mt-5 border rounded-5">
+  <div class="d-flex justify-content-between shadow p-4 rounded-5">
+    <h2 class="">Edit Case</h2>
+    <a href="{% url 'clinics_cases_list' %}" class="btn btn-dark">Back</a>
+  </div>
+  <form method="post" enctype="multipart/form-data" class="p-3">
+    {% csrf_token %} {{ form.as_p }}
+    <input type="submit" name="case" class="btn btn-outline-success form-control mt-3" value="Update Case" />
+  </form>
 </div>
 <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
 <script src="{% static 'javascript/script.js'%}"></script>
-</body>
-</html>
+{% endblock%}

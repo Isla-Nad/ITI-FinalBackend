@@ -1,37 +1,56 @@
-{% load static %}
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" />
-    </head>
-    <body>
-        <h1 class="text-center text-dark mb-4">Clinics</h1>
-        <div class="container">
-            <div class="row">
-        <a href="{% url 'create_clinic' %}" class="btn btn-success">Create Clinic</a>
-        
-            {% for clinic in clinics%}
-                <div class="card mt-3 ms-3 mb-3 col-3" style="width: 18rem;">
-                    <img src="{{ clinic.image.url }}" style="width: 100%; height: 10rem;"  class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <h5 class="card-title">{{clinic.name}}</h5>
-                      <p class="card-text">{{clinic.desc}}</p>
-                      <p class="card-text">Address : {{clinic.address}}</p>
-                      <p class="card-text">Phone : {{clinic.phone}}</p>                      
-                      <a href="{% url 'update_clinic' clinic.id %}" class="btn btn-success">Edit</a>
-                      <a href="{% url 'delete_clinic' clinic.id %}" class="btn btn-danger">Delete</a>
-                    </div>
-                  </div>
-            {% endfor %}
-    
-            
-        <a href="{% url 'admin_home' %}" class="btn btn-dark">Back</a>
-            </div>
-        </div>
-        <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
-    </body>
-</html>
+{% extends 'layouts/base.html' %} {% load static %} {% block title %}Clinics{% endblock %} {% block content %}
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
+
+<div class="container my-4">
+  <div class="shadow p-2 rounded-5 text-center my-5 bg-dark-subtle position-relative">
+    <a class="position-absolute fs-3 text-black" style="left: 1%" href="{% url 'admin_home' %}">🔙</a>
+    <h2 class="text-center">Clinics</h2>
+  </div>
+  <a href="{% url 'create_clinic' %}" class="btn btn-primary btn-sm add-button"> Add New Clinic + </a>
+  <div class="row grid-header">
+    <div class="grid-col col-1">#</div>
+    <div class="grid-col col-1">Name</div>
+    <div class="grid-col col-2">Description</div>
+    <div class="grid-col col-1">Address</div>
+    <div class="grid-col col-1">Phone</div>
+    <div class="grid-col col-4">Image</div>
+    <div class="grid-col col-2">Actions</div>
+  </div>
+
+  {% for clinic in clinics%}
+  <div key="{{ clinic.id }}" class="grid-row">
+    <div class="grid-col col-1 border-end border-secondary">{{ forloop.counter }}</div>
+    <div class="grid-col col-1 border-end border-secondary">{{ clinic.name }}</div>
+    <div class="grid-col col-2 border-end border-secondary">{{ clinic.desc }}</div>
+    <div class="grid-col col-1 border-end border-secondary">{{ clinic.address }}</div>
+    <div class="grid-col col-1 border-end border-secondary">{{ clinic.phone }}</div>
+    <img class="grid-col col-4 border-end border-secondary" src="{{ clinic.image.url }}" style="height: 8rem" class="card-img-top" alt="..." />
+    <div class="grid-col col-2 gap-2 d-flex">
+      <a href="{% url 'update_clinic' clinic.id %}" name="update_clinic" class="btn btn-warning text-light mx-1">Edit</a>
+      <a href="{% url 'delete_clinic' clinic.id %}" name="delete_clinic" class="btn btn-danger text-light mx-1">Delete</a>
+    </div>
+    <hr />
+  </div>
+  {% endfor %}
+
+  <div class="d-flex justify-content-center my-4">
+    <ul class="pagination">
+      <span class="step-links">
+        {% if clinics.has_previous %}
+        <a class="btn btn-sm btn-dark" href="?page=1">&laquo; first</a>
+        <a class="btn btn-sm btn-primary" href="?page={{ clinics.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current"> Page {{ clinics.number }} of {{ clinics.paginator.num_pages }}. </span>
+
+        {% if clinics.has_next %}
+        <a class="btn btn-sm btn-primary" href="?page={{ clinics.next_page_number }}">next</a>
+        <a class="btn btn-sm btn-dark" href="?page={{ clinics.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+      </span>
+    </ul>
+  </div>
+</div>
+
+<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+{% endblock %}

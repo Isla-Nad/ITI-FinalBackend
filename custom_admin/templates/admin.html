@@ -1,39 +1,51 @@
 {% extends 'layouts/base.html' %} {% load static %} {% block title %}Dentos Dashboard{% endblock %} {% block content %}
 <!-- navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light border border-2 border-secondary border-radius"
-  style="padding: 0;">
-  <div class="container-fluid d-flex ">
+<nav class="navbar navbar-expand-lg navbar-light bg-light border border-2 border-secondary border-radius" style="padding: 0">
+  <div class="container-fluid d-flex">
     <a class="navbar-brand" href="#">Dentos </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNav">
       <ul class="navbar-nav d-flex">
-        <li class="nav-item ">
+        <li class="nav-item">
           <h1 class="text-center text-info">
             Dentos Dashboard
             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-              <style>svg {fill: #729fcf;}</style>
-              <path d="M78.6 5C69.1-2.4 55.6-1.5 47 7L7 47c-8.5 8.5-9.4 22-2.1 31.6l80 104c4.5 5.9 11.6 9.4 19 9.4h54.1l109 109c-14.7 29-10 65.4 14.3 89.6l112 112c12.5 12.5 32.8 12.5 45.3 0l64-64c12.5-12.5 12.5-32.8 0-45.3l-112-112c-24.2-24.2-60.6-29-89.6-14.3l-109-109V104c0-7.5-3.5-14.5-9.4-19L78.6 5zM19.9 396.1C7.2 408.8 0 426.1 0 444.1C0 481.6 30.4 512 67.9 512c18 0 35.3-7.2 48-19.9L233.7 374.3c-7.8-20.9-9-43.6-3.6-65.1l-61.7-61.7L19.9 396.1zM512 144c0-10.5-1.1-20.7-3.2-30.5c-2.4-11.2-16.1-14.1-24.2-6l-63.9 63.9c-3 3-7.1 4.7-11.3 4.7H352c-8.8 0-16-7.2-16-16V102.6c0-4.2 1.7-8.3 4.7-11.3l63.9-63.9c8.1-8.1 5.2-21.8-6-24.2C388.7 1.1 378.5 0 368 0C288.5 0 224 64.5 224 144l0 .8 85.3 85.3c36-9.1 75.8 .5 104 28.7L429 274.5c49-23 83-72.8 83-130.5zM56 432a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"/>
+              <style>
+                svg {
+                  fill: #729fcf;
+                }
+              </style>
+              <path
+                d="M78.6 5C69.1-2.4 55.6-1.5 47 7L7 47c-8.5 8.5-9.4 22-2.1 31.6l80 104c4.5 5.9 11.6 9.4 19 9.4h54.1l109 109c-14.7 29-10 65.4 14.3 89.6l112 112c12.5 12.5 32.8 12.5 45.3 0l64-64c12.5-12.5 12.5-32.8 0-45.3l-112-112c-24.2-24.2-60.6-29-89.6-14.3l-109-109V104c0-7.5-3.5-14.5-9.4-19L78.6 5zM19.9 396.1C7.2 408.8 0 426.1 0 444.1C0 481.6 30.4 512 67.9 512c18 0 35.3-7.2 48-19.9L233.7 374.3c-7.8-20.9-9-43.6-3.6-65.1l-61.7-61.7L19.9 396.1zM512 144c0-10.5-1.1-20.7-3.2-30.5c-2.4-11.2-16.1-14.1-24.2-6l-63.9 63.9c-3 3-7.1 4.7-11.3 4.7H352c-8.8 0-16-7.2-16-16V102.6c0-4.2 1.7-8.3 4.7-11.3l63.9-63.9c8.1-8.1 5.2-21.8-6-24.2C388.7 1.1 378.5 0 368 0C288.5 0 224 64.5 224 144l0 .8 85.3 85.3c36-9.1 75.8 .5 104 28.7L429 274.5c49-23 83-72.8 83-130.5zM56 432a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"
+              />
             </svg>
           </h1>
         </li>
       </ul>
     </div>
     <a href="{% url 'admin_logout' %}" class="btn btn-danger btn-sm">Logout</a>
-
   </div>
 </nav>
-<div class="alert alert-warning text-center" role="alert">
-  Be careful, You work with sensitive data! ⚠️
-</div>
+<div class="alert alert-warning text-center" role="alert">Be careful, You work with sensitive data! ⚠️</div>
 <!-- main content -->
 <!-- grid system -->
-<div class="container d-flex justify-content-center w-100" >
-  <div class=" row justify-content-around borderw-100" style="border: solid #729fcf 2px; border-radius: 10px;">
-    <div class="   col-md-6 col-lg-3 mt-4 ">
-      <div class="card" >
-        <svg  class="display-1 m-2" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#729fcf}</style><path d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192h42.7c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0H21.3C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7h42.7C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3H405.3zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352H378.7C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7H154.7c-14.7 0-26.7-11.9-26.7-26.7z"/></svg>
+<div class="container d-flex justify-content-center w-100">
+  <div class="row justify-content-around borderw-100" style="border: solid #729fcf 2px; border-radius: 10px">
+    <div class="col-md-6 col-lg-3 mt-4">
+      <div class="card">
+        <svg class="display-1 m-2" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
+          <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+          <style>
+            svg {
+              fill: #729fcf;
+            }
+          </style>
+          <path
+            d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192h42.7c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0H21.3C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7h42.7C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3H405.3zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352H378.7C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7H154.7c-14.7 0-26.7-11.9-26.7-26.7z"
+          />
+        </svg>
         <div class="card-body text-center">
           <a href="{% url 'users_list' %}" class="text-primary text-decoration-none"><span class="fw-bold">Users</span></a>
           <span class="badge bg-secondary">{{user_count}}</span>
@@ -41,28 +53,46 @@
       </div>
     </div>
 
-    <div class="   col-md-6 col-lg-3 mt-4 ">
+    <div class="col-md-6 col-lg-3 mt-4">
       <div class="card">
-        <svg  class="display-1 m-2"  xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#729fcf}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm80 256h64c44.2 0 80 35.8 80 80c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16c0-44.2 35.8-80 80-80zm-32-96a64 64 0 1 1 128 0 64 64 0 1 1 -128 0zm256-32H496c8.8 0 16 7.2 16 16s-7.2 16-16 16H368c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H496c8.8 0 16 7.2 16 16s-7.2 16-16 16H368c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H496c8.8 0 16 7.2 16 16s-7.2 16-16 16H368c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
+        <svg class="display-1 m-2" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+          <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+          <style>
+            svg {
+              fill: #729fcf;
+            }
+          </style>
+          <path
+            d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm80 256h64c44.2 0 80 35.8 80 80c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16c0-44.2 35.8-80 80-80zm-32-96a64 64 0 1 1 128 0 64 64 0 1 1 -128 0zm256-32H496c8.8 0 16 7.2 16 16s-7.2 16-16 16H368c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H496c8.8 0 16 7.2 16 16s-7.2 16-16 16H368c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H496c8.8 0 16 7.2 16 16s-7.2 16-16 16H368c-8.8 0-16-7.2-16-16s7.2-16 16-16z"
+          />
+        </svg>
         <div class="card-body text-center">
           <a href="{% url 'user_profiles_list' %}" class="text-primary text-decoration-none"><span class="fw-bold">Profiles</span></a>
-          <span class="badge bg-secondary">{{user_count}}</span>
+          <span class="badge bg-secondary">{{profile_count}}</span>
         </div>
       </div>
     </div>
 
-    <div class="   col-md-6 col-lg-3 mt-4 ">
+    <div class="col-md-6 col-lg-3 mt-4">
       <div class="card">
-        <svg class="display-1 m-2"   xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#729fcf}</style><path d="M128 0c13.3 0 24 10.7 24 24V64H296V24c0-13.3 10.7-24 24-24s24 10.7 24 24V64h40c35.3 0 64 28.7 64 64v16 48V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V192 144 128C0 92.7 28.7 64 64 64h40V24c0-13.3 10.7-24 24-24zM400 192H48V448c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V192zM329 297L217 409c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47 95-95c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>
+        <svg class="display-1 m-2" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+          <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+          <style>
+            svg {
+              fill: #729fcf;
+            }
+          </style>
+          <path d="M128 0c13.3 0 24 10.7 24 24V64H296V24c0-13.3 10.7-24 24-24s24 10.7 24 24V64h40c35.3 0 64 28.7 64 64v16 48V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V192 144 128C0 92.7 28.7 64 64 64h40V24c0-13.3 10.7-24 24-24zM400 192H48V448c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V192zM329 297L217 409c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47 95-95c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+        </svg>
         <div class="card-body text-center">
           <a href="{% url 'appointments_list' %}" class="text-primary text-decoration-none"><span class="fw-bold">Appointments</span></a>
-          <span class="badge bg-secondary">{{user_count}}</span>
+          <span class="badge bg-secondary">{{appointment_count}}</span>
         </div>
       </div>
     </div>
 
-    <div class="   col-md-6 col-lg-3 mt-4 ">
-      <div class="card" >
+    <div class="col-md-6 col-lg-3 mt-4">
+      <div class="card">
         <svg class="display-1 m-2" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
           <style>
             svg {
@@ -78,7 +108,7 @@
       </div>
     </div>
 
-    <div class="   col-md-6 col-lg-3 mt-4 ">
+    <div class="col-md-6 col-lg-3 mt-4">
       <div class="card">
         <svg class="display-1 m-2" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
           <style>
@@ -97,9 +127,19 @@
       </div>
     </div>
 
-    <div class="   col-md-6 col-lg-3 mt-4 ">
+    <div class="col-md-6 col-lg-3 mt-4">
       <div class="card">
-        <svg  class="display-1 m-2" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#729fcf}</style><path d="M208 352c114.9 0 208-78.8 208-176S322.9 0 208 0S0 78.8 0 176c0 38.6 14.7 74.3 39.6 103.4c-3.5 9.4-8.7 17.7-14.2 24.7c-4.8 6.2-9.7 11-13.3 14.3c-1.8 1.6-3.3 2.9-4.3 3.7c-.5 .4-.9 .7-1.1 .8l-.2 .2 0 0 0 0C1 327.2-1.4 334.4 .8 340.9S9.1 352 16 352c21.8 0 43.8-5.6 62.1-12.5c9.2-3.5 17.8-7.4 25.3-11.4C134.1 343.3 169.8 352 208 352zM448 176c0 112.3-99.1 196.9-216.5 207C255.8 457.4 336.4 512 432 512c38.2 0 73.9-8.7 104.7-23.9c7.5 4 16 7.9 25.2 11.4c18.3 6.9 40.3 12.5 62.1 12.5c6.9 0 13.1-4.5 15.2-11.1c2.1-6.6-.2-13.8-5.8-17.9l0 0 0 0-.2-.2c-.2-.2-.6-.4-1.1-.8c-1-.8-2.5-2-4.3-3.7c-3.6-3.3-8.5-8.1-13.3-14.3c-5.5-7-10.7-15.4-14.2-24.7c24.9-29 39.6-64.7 39.6-103.4c0-92.8-84.9-168.9-192.6-175.5c.4 5.1 .6 10.3 .6 15.5z"/></svg>
+        <svg class="display-1 m-2" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
+          <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+          <style>
+            svg {
+              fill: #729fcf;
+            }
+          </style>
+          <path
+            d="M208 352c114.9 0 208-78.8 208-176S322.9 0 208 0S0 78.8 0 176c0 38.6 14.7 74.3 39.6 103.4c-3.5 9.4-8.7 17.7-14.2 24.7c-4.8 6.2-9.7 11-13.3 14.3c-1.8 1.6-3.3 2.9-4.3 3.7c-.5 .4-.9 .7-1.1 .8l-.2 .2 0 0 0 0C1 327.2-1.4 334.4 .8 340.9S9.1 352 16 352c21.8 0 43.8-5.6 62.1-12.5c9.2-3.5 17.8-7.4 25.3-11.4C134.1 343.3 169.8 352 208 352zM448 176c0 112.3-99.1 196.9-216.5 207C255.8 457.4 336.4 512 432 512c38.2 0 73.9-8.7 104.7-23.9c7.5 4 16 7.9 25.2 11.4c18.3 6.9 40.3 12.5 62.1 12.5c6.9 0 13.1-4.5 15.2-11.1c2.1-6.6-.2-13.8-5.8-17.9l0 0 0 0-.2-.2c-.2-.2-.6-.4-1.1-.8c-1-.8-2.5-2-4.3-3.7c-3.6-3.3-8.5-8.1-13.3-14.3c-5.5-7-10.7-15.4-14.2-24.7c24.9-29 39.6-64.7 39.6-103.4c0-92.8-84.9-168.9-192.6-175.5c.4 5.1 .6 10.3 .6 15.5z"
+          />
+        </svg>
         <div class="card-body text-center">
           <a href="{% url 'commentslist' %}" class="text-primary text-decoration-none"><span class="fw-bold">Comments</span></a>
           <span class="badge bg-secondary">{{comments_count}}</span>
@@ -107,7 +147,7 @@
       </div>
     </div>
 
-    <div class="   col-md-6 col-lg-3 mt-4 ">
+    <div class="col-md-6 col-lg-3 mt-4">
       <div class="card">
         <svg class="display-1 m-2" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
           <style>
@@ -126,7 +166,7 @@
       </div>
     </div>
 
-    <div class="   col-md-6 col-lg-3 mt-4 ">
+    <div class="col-md-6 col-lg-3 mt-4">
       <div class="card">
         <svg class="display-1 m-2" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
           <style>
@@ -143,7 +183,7 @@
       </div>
     </div>
 
-    <div class=" col-md-6 col-lg-3 mt-4 ">
+    <div class="col-md-6 col-lg-3 mt-4">
       <div class="card">
         <svg class="display-1 m-2" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
           <style>
@@ -162,7 +202,7 @@
       </div>
     </div>
 
-    <div class="   col-md-6 col-lg-3 mt-4 mb-4">
+    <div class="col-md-6 col-lg-3 mt-4 mb-4">
       <div class="card">
         <svg class="display-1 m-2" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
           <style>
@@ -181,21 +221,19 @@
   </div>
   <!-- style all page -->
   <style>
-    *{
+    * {
       background-color: #dbe8f8;
     }
-    .card{
+    .card {
       background-color: #dbe8f8;
     }
   </style>
 </div>
 <!-- footer -->
 
-
 <footer class="py-3 my-4">
   <p class="text-center text-muted">© All Rights Reserved - Dentos 2023</p>
 </footer>
-
 
 <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
 {% endblock%}

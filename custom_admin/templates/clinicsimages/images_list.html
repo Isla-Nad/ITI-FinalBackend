@@ -1,36 +1,52 @@
-{% load static %}
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" />
-    </head>
-    <body>
-        <h1 class="text-center text-dark mb-4">Clinics Images</h1>
-        <div class="container">
-            <div class="row">
-        <a href="{% url 'create_clinic_images' %}" class="btn btn-success">Add Clinic Image</a>
-        
-            {% for image in clinicimages %}
-                <div class="card mt-3 ms-3 mb-3 col-3" style="width: 18rem;">
-                    <img src="{{ image.image.url }}" style="width: 100%; height: 10rem;"  class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <h5 class="card-title">{{image.desc}}</h5>
-                      <p class="card-text">This image belongs to : {{image.clinic}}</p>
-                      <a href="{% url 'update_clinic_image' image.id %}" class="btn btn-success">Edit</a>
-                      <a href="{% url 'delete_clinic_image' image.id %}" class="btn btn-danger">Delete</a>                     
-                      
-                    </div>
-                  </div>
-            {% endfor %}
-    
-            
-        <a href="{% url 'admin_home' %}" class="btn btn-dark">Back</a>
-            </div>
-        </div>
-        <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
-    </body>
-</html>
+{% extends 'layouts/base.html' %} {% load static %} {% block title %}Clinics Images{% endblock %} {% block content %}
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
+
+<div class="container my-4">
+  <div class="shadow p-2 rounded-5 text-center my-5 bg-dark-subtle position-relative">
+    <a class="position-absolute fs-3 text-black" style="left: 1%" href="{% url 'admin_home' %}">🔙</a>
+    <h2 class="text-center">Clinics Images</h2>
+  </div>
+  <a href="{% url 'create_clinic_images' %}" class="btn btn-primary btn-sm add-button"> Add New Image + </a>
+  <div class="row grid-header">
+    <div class="grid-col col-1">#</div>
+    <div class="grid-col col-2">Clinic</div>
+    <div class="grid-col col-3">Description</div>
+    <div class="grid-col col-4">Image</div>
+    <div class="grid-col col-2">Actions</div>
+  </div>
+
+  {% for image in clinicimages %}
+  <div key="{{ image.id }}" class="grid-row">
+    <div class="grid-col col-1 border-end border-secondary">{{ forloop.counter }}</div>
+    <div class="grid-col col-2 border-end border-secondary">{{ image.clinic.name }}</div>
+    <div class="grid-col col-3 border-end border-secondary">{{ image.desc }}</div>
+    <img class="grid-col col-4 border-end border-secondary" src="{{ image.image.url }}" style="height: 8rem" class="card-img-top" alt="..." />
+    <div class="grid-col col-2 gap-2 d-flex">
+      <a href="{% url 'update_clinic_image' image.id %}" name="update_clinic_image" class="btn btn-warning text-light mx-1">Edit</a>
+      <a href="{% url 'delete_clinic_image' image.id %}" name="delete_clinic_image" class="btn btn-danger text-light mx-1">Delete</a>
+    </div>
+    <hr />
+  </div>
+  {% endfor %}
+
+  <div class="d-flex justify-content-center my-4">
+    <ul class="pagination">
+      <span class="step-links">
+        {% if clinicimages.has_previous %}
+        <a class="btn btn-sm btn-dark" href="?page=1">&laquo; first</a>
+        <a class="btn btn-sm btn-primary" href="?page={{ clinicimages.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current"> Page {{ clinicimages.number }} of {{ clinicimages.paginator.num_pages }}. </span>
+
+        {% if clinicimages.has_next %}
+        <a class="btn btn-sm btn-primary" href="?page={{ clinicimages.next_page_number }}">next</a>
+        <a class="btn btn-sm btn-dark" href="?page={{ clinicimages.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+      </span>
+    </ul>
+  </div>
+
+  <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  {% endblock %}
+</div>
