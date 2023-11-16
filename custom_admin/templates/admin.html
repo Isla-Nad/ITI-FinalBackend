@@ -20,16 +20,17 @@
         </li>
       </ul>
     </div>
-    <a href="{% url 'admin_logout' %}" class="btn btn-dark btn-sm">Logout</a>
+    <a href="{% url 'admin_logout' %}" class="btn btn-danger btn-sm">Logout</a>
 
   </div>
 </nav>
 <div class="alert alert-warning text-center" role="alert">
   Be careful, You work with sensitive data! ⚠️
-</div><!-- main content -->
+</div>
+<!-- main content -->
 <!-- grid system -->
-<div class="container d-flex justify-content-center w-100" style="background-color: #729fcf;">
-  <div class=" row justify-content-around borderw-100" style="border: solid aqua 2px; border-radius: 10px;">
+<div class="container d-flex justify-content-center w-100" >
+  <div class=" row justify-content-around borderw-100" style="border: solid #729fcf 2px; border-radius: 10px;">
     <div class="   col-md-6 col-lg-3 mt-4 ">
       <div class="card" >
         <svg  class="display-1 m-2" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#729fcf}</style><path d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192h42.7c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0H21.3C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7h42.7C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3H405.3zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352H378.7C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7H154.7c-14.7 0-26.7-11.9-26.7-26.7z"/></svg>
@@ -98,16 +99,7 @@
 
     <div class="   col-md-6 col-lg-3 mt-4 ">
       <div class="card">
-        <svg class="display-1 m-2" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-          <style>
-            svg {
-              fill: #729fcf;
-            }
-          </style>
-          <path
-            d="M278.5 215.6L23 471c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l57-57h68c49.7 0 97.9-14.4 139-41c11.1-7.2 5.5-23-7.8-23c-5.1 0-9.2-4.1-9.2-9.2c0-4.1 2.7-7.6 6.5-8.8l81-24.3c2.5-.8 4.8-2.1 6.7-4l22.4-22.4c10.1-10.1 2.9-27.3-11.3-27.3l-32.2 0c-5.1 0-9.2-4.1-9.2-9.2c0-4.1 2.7-7.6 6.5-8.8l112-33.6c4-1.2 7.4-3.9 9.3-7.7C506.4 207.6 512 184.1 512 160c0-41-16.3-80.3-45.3-109.3l-5.5-5.5C432.3 16.3 393 0 352 0s-80.3 16.3-109.3 45.3L139 149C91 197 64 262.1 64 330v55.3L253.6 195.8c6.2-6.2 16.4-6.2 22.6 0c5.4 5.4 6.1 13.6 2.2 19.8z"
-          />
-        </svg>
+        <svg  class="display-1 m-2" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#729fcf}</style><path d="M208 352c114.9 0 208-78.8 208-176S322.9 0 208 0S0 78.8 0 176c0 38.6 14.7 74.3 39.6 103.4c-3.5 9.4-8.7 17.7-14.2 24.7c-4.8 6.2-9.7 11-13.3 14.3c-1.8 1.6-3.3 2.9-4.3 3.7c-.5 .4-.9 .7-1.1 .8l-.2 .2 0 0 0 0C1 327.2-1.4 334.4 .8 340.9S9.1 352 16 352c21.8 0 43.8-5.6 62.1-12.5c9.2-3.5 17.8-7.4 25.3-11.4C134.1 343.3 169.8 352 208 352zM448 176c0 112.3-99.1 196.9-216.5 207C255.8 457.4 336.4 512 432 512c38.2 0 73.9-8.7 104.7-23.9c7.5 4 16 7.9 25.2 11.4c18.3 6.9 40.3 12.5 62.1 12.5c6.9 0 13.1-4.5 15.2-11.1c2.1-6.6-.2-13.8-5.8-17.9l0 0 0 0-.2-.2c-.2-.2-.6-.4-1.1-.8c-1-.8-2.5-2-4.3-3.7c-3.6-3.3-8.5-8.1-13.3-14.3c-5.5-7-10.7-15.4-14.2-24.7c24.9-29 39.6-64.7 39.6-103.4c0-92.8-84.9-168.9-192.6-175.5c.4 5.1 .6 10.3 .6 15.5z"/></svg>
         <div class="card-body text-center">
           <a href="{% url 'commentslist' %}" class="text-primary text-decoration-none"><span class="fw-bold">Comments</span></a>
           <span class="badge bg-secondary">{{comments_count}}</span>
@@ -170,7 +162,7 @@
       </div>
     </div>
 
-    <div class="   col-md-6 col-lg-3 mt-4 ">
+    <div class="   col-md-6 col-lg-3 mt-4 mb-4">
       <div class="card">
         <svg class="display-1 m-2" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
           <style>
