@@ -120,6 +120,9 @@ def edit_profile(request):
         user_profile, data=request.data, partial=True)
     user_serializer = UserSerializerEdit(
         user, data=request.data, partial=True)
+
+    combined_errors = {}
+
     if user_serializer.is_valid() and profile_serializer.is_valid():
         user_serializer.save()
         profile_serializer.save()
@@ -127,12 +130,13 @@ def edit_profile(request):
             **user_serializer.data,
             **profile_serializer.data
         }
-        combined_errors = {
-            **user_serializer.errors,
-            **profile_serializer.errors
-        }
         return Response(combined_serializer, status=status.HTTP_200_OK)
-    return Response(combined_errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        user_serializer.is_valid()
+        profile_serializer.is_valid()
+        combined_errors.update(user_serializer.errors)
+        combined_errors.update(profile_serializer.errors)
+        return Response(combined_errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT'])
