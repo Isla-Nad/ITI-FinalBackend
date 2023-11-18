@@ -89,6 +89,25 @@ class UserSerializerEdit(serializers.ModelSerializer):
         model = User
         fields = ['first_name', 'last_name', 'phone', 'clinic']
 
+    def validate(self, data):
+        phone = data.get('phone', '')
+
+        if not re.match(r"^01[0-9]{9}$", phone):
+            raise serializers.ValidationError(
+                {'phone': 'Invalid Egyptian phone number format.'})
+
+        if data.get('first_name') is None:
+            raise serializers.ValidationError(
+                {'first_name': 'This field cannot be null.'})
+        if data.get('last_name') is None:
+            raise serializers.ValidationError(
+                {'last_name': 'This field cannot be null.'})
+        if data.get('clinic') is None:
+            raise serializers.ValidationError(
+                {'clinic': 'This field cannot be null.'})
+
+        return data
+
 
 class UserPicSerializer(serializers.ModelSerializer):
     class Meta:
