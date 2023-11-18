@@ -52,23 +52,58 @@
         margin-right: 5px;
       }
       .navbar {
-        background-image: linear-gradient(to left, #97a3eb, #837ab3, #69557f, #4a334f, #291626);
-        background-size: cover; /* Adjust the background size as needed */
+        background: linear-gradient(to left, #97a3eb, #837ab3, #69557f, #4a334f, #291626);
+        background-size: cover;
         background-color: #343a40;
         color: #ffffff;
         box-shadow: 0 0 5px;
       }
       .col-auto {
-        background-image: linear-gradient(to right, #0f173d, #2b1f40);
-        background-size: cover; /* Adjust the background size as needed */
-        background-color: #343a40;
+        background: linear-gradient(to right, #0f173d, #2b1f40);
+        background-size: cover;
         color: #ffffff;
       }
-      .nav-link {
-        color: greenyellow;
+
+      .navbar {
+        background-size: cover;
+        color: #ffffff;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      }
+
+      .navbar-brand {
+        color: #ffffff !important; /* Override the default color */
+      }
+
+      .btn-danger {
+        background-color: #d9534f;
+        border-color: #d9534f;
+      }
+
+      .btn-danger:hover {
+        background-color: #c9302c;
+        border-color: #c12e2a;
+      }
+      .nav {
+        height: 100vh !important;
+        padding: 3rem !important;
+        border: 1px solid;
+        box-shadow: 0 0 10px;
+      }
+
+      .nav-pills .nav-link {
         margin-inline: 10px;
+        color: #ffffff;
+      }
+
+      .nav-link:hover {
+        color: #f0ad4e;
+      }
+
+      .nav-header {
+        color: #f0ad4e;
       }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   </head>
   <body>
     <!-- nav bar -->
@@ -101,11 +136,11 @@
     <!-- side menu -->
     <div class="container-fluid">
       <div class="row flex-nowrap">
-        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style="background-color: #343a40; color: #ffffff">
-          <div class="d-flex p-5 flex-column align-items-center align-items-sm-start min-vh-100">
-            <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 d-none d-md-block" style="background-color: #343a40; color: #ffffff">
+          <div class="d-flex p-1 flex-column align-items-center align-items-sm-start min-vh-100">
+            <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100" id="menu">
               <li class="nav-item">
-                <h6 class="nav-header">Accounts</h6>
+                <h6 class="nav-header"><i class="fa fa-users text-info"></i> Accounts</h6>
               </li>
               <li>
                 <a href="{% url 'users_list' %}" class="nav-link px-0 align-middle"> <span class="ms-1 d-sm-inline">Users</span> </a>
@@ -115,7 +150,7 @@
               </li>
               <hr style="border-color: rgba(255, 255, 255, 0.1)" />
               <li class="nav-item">
-                <h6 class="nav-header">Community</h6>
+                <h6 class="nav-header"><i class="fa fa-comments text-info"></i> Community</h6>
               </li>
               <li>
                 <a href="{% url 'postslist' %}" class="nav-link px-0 align-middle"> <span class="ms-1 d-sm-inline">Posts</span> </a>
@@ -128,7 +163,7 @@
               </li>
               <hr style="border-color: rgba(255, 255, 255, 0.1)" />
               <li class="nav-item">
-                <h6 class="nav-header">Clinics</h6>
+                <h6 class="nav-header"><i class="fa fa-stethoscope text-info"></i> Clinics</h6>
               </li>
               <li>
                 <a href="{% url 'appointments_list' %}" class="nav-link px-0 align-middle"> <span class="ms-1 d-sm-inline">Appointments</span> </a>
