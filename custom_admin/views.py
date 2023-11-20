@@ -18,7 +18,15 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def is_admin(user):
+    return user.is_staff and user.is_superuser
+
+
+def is_staff(user):
     return user.is_staff
+
+
+def custom_404_view(request, exception=None):
+    return render(request, '404.html', status=404)
 
 
 def admin_login(request):
@@ -28,11 +36,11 @@ def admin_login(request):
         user = authenticate(request, username=email, password=password)
 
         if user is not None:
-            if user.is_superuser:
+            if user.is_staff:
                 login(request, user)
                 return redirect(reverse('admin_home'))
             else:
-                return render(request, 'login.html', {'error_message': 'This user is not admin.'})
+                return render(request, 'login.html', {'error_message': 'This user is not staff.'})
         else:
             return render(request, 'login.html', {'error_message': 'Email or password is incorrect.'})
     else:
@@ -44,7 +52,7 @@ def admin_logout(request):
     return redirect(reverse('admin_login'))
 
 
-@user_passes_test(is_admin)
+@user_passes_test(is_staff)
 def admin(request):
     user_count = User.objects.count()
     profile_count = UserProfile.objects.count()
@@ -61,7 +69,7 @@ def admin(request):
 # users
 
 
-@user_passes_test(is_admin)
+@user_passes_test(is_staff)
 def users_list(request):
     user_list = User.objects.all()
     paginator = Paginator(user_list, 5)
@@ -115,7 +123,7 @@ def user_delete(request, id):
 # user_profiles
 
 
-@user_passes_test(is_admin)
+@user_passes_test(is_staff)
 def user_profiles_list(request):
     user_profiles_list = UserProfile.objects.all()
     paginator = Paginator(user_profiles_list, 5)
@@ -165,7 +173,7 @@ def user_profile_edit(request, id):
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # appointments
 
-@user_passes_test(is_admin)
+@user_passes_test(is_staff)
 def appointments_list(request):
     appointments_list = Appointment.objects.all()
     paginator = Paginator(appointments_list, 5)
@@ -187,7 +195,6 @@ def appointment_delete(request, id):
             appointment_to_delete.delete()
             messages.success(request, 'Appointment deleted successfully.')
         else:
-            messages.error(request, 'Cannot delete an accepted appointment.')
             return render(request, 'appointments/appointment_delete.html')
 
         return redirect('appointments_list')
@@ -197,7 +204,7 @@ def appointment_delete(request, id):
 # medical_history
 
 
-@user_passes_test(is_admin)
+@user_passes_test(is_staff)
 def ViewMedicalHistory(request):
     medical_list = MedicalHistory.objects.all()
     paginator = Paginator(medical_list, 5)
@@ -244,7 +251,7 @@ class MedicalDeleteView(DeleteView):
 # posts in the admin panel
 
 
-@user_passes_test(is_admin)
+@user_passes_test(is_staff)
 def posts_list(request):
     posts_list = Post.objects.all()
     paginator = Paginator(posts_list, 5)
@@ -283,7 +290,7 @@ class PostDeleteView(DeleteView):
 
 # comments in admin panel
 
-@user_passes_test(is_admin)
+@user_passes_test(is_staff)
 def ViewComments(request):
     comments_list = Comment.objects.all()
     paginator = Paginator(comments_list, 5)
@@ -297,7 +304,7 @@ def ViewComments(request):
     return render(request, 'comments/commentslist.html', context={'comments': comments})
 
 
-@method_decorator(user_passes_test(is_admin), name='dispatch')
+@method_decorator(user_passes_test(is_staff), name='dispatch')
 class CommentDetailView(DetailView):
     model = Comment
     template_name = 'comments/viewcomment.html'
@@ -323,7 +330,7 @@ class CommentDeleteView(DeleteView):
 
 # Clinics in the admin panel
 
-@user_passes_test(is_admin)
+@user_passes_test(is_staff)
 def get_all_clinics(request):
     clinics_list = Clinic.objects.all()
     paginator = Paginator(clinics_list, 5)
@@ -361,7 +368,7 @@ class ClinicUpdateView(UpdateView):
 
 
 # Clinic Cases in the admin panel
-@user_passes_test(is_admin)
+@user_passes_test(is_staff)
 def get_all_clinic_cases(request):
     cases_list = Cases.objects.all()
     paginator = Paginator(cases_list, 5)
@@ -399,7 +406,7 @@ class ClinicCaseUpdateView(UpdateView):
 
 
 # Clinic Images in the admin panel
-@user_passes_test(is_admin)
+@user_passes_test(is_staff)
 def get_all_clinic_images(request):
     clinicimages_list = ClinicImages.objects.all()
     paginator = Paginator(clinicimages_list, 5)
@@ -439,7 +446,7 @@ class ClinicImagesUpdateView(UpdateView):
 # ********************************************************************
 # reviews
 
-@user_passes_test(is_admin)
+@user_passes_test(is_staff)
 def reviews_list(request):
     reviews_list = Review.objects.all()
     paginator = Paginator(reviews_list, 5)
@@ -453,7 +460,7 @@ def reviews_list(request):
     return render(request, 'reviews/reviewlist.html', context={'reviews': reviews})
 
 
-@method_decorator(user_passes_test(is_admin), name='dispatch')
+@method_decorator(user_passes_test(is_staff), name='dispatch')
 class ReviewDetialView(DetailView):
     model = Review
     context_object_name = 'review'

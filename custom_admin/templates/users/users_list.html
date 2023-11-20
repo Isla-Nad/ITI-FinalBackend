@@ -17,8 +17,10 @@
     <div class="grid-col col-1 border-end border-secondary">{{ forloop.counter }}</div>
     <div class="grid-col col-4 border-end border-secondary">{{ user.first_name }} {{ user.last_name }}</div>
     <div class="grid-col col-7 gap-2 d-flex">
+      {% if request.user.is_staff and request.user.is_superuser %}
       <a href="{% url 'user_edit' user.id %}" name="user_edit" class="btn btn-warning text-light mx-1">Edit</a>
       <a href="{% url 'user_delete' user.id %}" name="user_delete" class="btn btn-danger text-light mx-1">Delete</a>
+      {% endif %}
     </div>
     <hr />
   </div>

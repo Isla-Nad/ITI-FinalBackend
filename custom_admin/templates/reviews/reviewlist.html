@@ -22,8 +22,9 @@
     <div class="grid-col col-1 border-end border-secondary">{{review.rating}}</div>
     <div class="grid-col col-4 border-end border-secondary">{{review.comment}}</div>
     <div class="grid-col col-2 gap-2 d-flex">
-      {% comment %} <a href="{% url 'reviewdetial' review.id %}" name="reviewdetial" class="btn btn-info text-light mx-1">View</a> {% endcomment %}
+      {% if request.user.is_staff and request.user.is_superuser %} {% comment %} <a href="{% url 'reviewdetial' review.id %}" name="reviewdetial" class="btn btn-info text-light mx-1">View</a> {% endcomment %}
       <a href="{% url 'reviewdelete' review.id %}" name="reviewdelete" class="btn btn-danger text-light mx-1">Delete</a>
+      {% endif %}
     </div>
     <hr />
   </div>
