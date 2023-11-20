@@ -6,7 +6,7 @@
   </div>
   <form method="post" enctype="multipart/form-data" class="p-3">
     {% csrf_token %} {{ form.as_p }}
-    <input type="submit" name="Case" class="btn btn-outline-success form-control mt-3" value="Create Case" />
+    <input type="submit" name="case" class="btn btn-outline-success form-control mt-3" value="Create Case" />
   </form>
 </div>
 <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>

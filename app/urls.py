@@ -15,11 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.conf.urls.static import static
 from django.conf import settings
 
-from custom_admin.views import admin_login, admin_logout
+from custom_admin.views import admin_login, admin_logout, custom_404_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,6 +31,8 @@ urlpatterns = [
     path('medical/', include('medical_history.urls')),
     path('custom_admin/', include('custom_admin.urls')),
     path('', admin_login, name='admin_login'),
-    path('admin_logout/', admin_logout, name='admin_logout')
-
+    path('admin_logout/', admin_logout, name='admin_logout'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += [
+    re_path(r'^.*$', custom_404_view),
+]

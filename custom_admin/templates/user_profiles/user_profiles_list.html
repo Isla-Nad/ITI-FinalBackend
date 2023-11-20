@@ -16,7 +16,9 @@
     <div class="grid-col col-1 border-end border-secondary">{{ forloop.counter }}</div>
     <div class="grid-col col-4 border-end border-secondary">{{ profile }}</div>
     <div class="grid-col col-7 gap-2 d-flex">
+      {% if request.user.is_staff and request.user.is_superuser %}
       <a href="{% url 'user_profile_edit' profile.id %}" name="user_edit" class="btn btn-warning text-light mx-1">Edit</a>
+      {% endif %}
     </div>
     <hr />
   </div>

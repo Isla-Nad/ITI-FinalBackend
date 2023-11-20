@@ -19,9 +19,10 @@
     <div class="grid-col col-2 border-end border-secondary">{{data.patient_name }}</div>
     <div class="grid-col col-2 border-end border-secondary">{{data.date_of_visit}}</div>
     <div class="grid-col col-5 gap-2 d-flex">
-      {% comment %} <a href="{% url 'medical_detail' data.id %}" name="data_view" class="btn btn-info text-light mx-1">View</a> {% endcomment %}
+      {% if request.user.is_staff and request.user.is_superuser %} {% comment %} <a href="{% url 'medical_detail' data.id %}" name="data_view" class="btn btn-info text-light mx-1">View</a> {% endcomment %}
       <a href="{% url 'medical_update' data.id %}" name="data_edit" class="btn btn-warning text-light mx-1">Edit</a>
       <a href="{% url 'medical_delete' data.id %}" name="data_delete" class="btn btn-danger text-light mx-1">Delete</a>
+      {% endif %}
     </div>
     <hr />
   </div>

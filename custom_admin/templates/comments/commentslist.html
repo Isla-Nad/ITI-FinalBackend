@@ -20,8 +20,9 @@
     <div class="grid-col col-2 border-end border-secondary">{{ comment.post.title }}</div>
     <div class="grid-col col-5 border-end border-secondary">{{ comment.text }}</div>
     <div class="grid-col col-2 gap-2 d-flex">
-      {% comment %} <a href="{% url 'comment_detail' comment.id %}" name="comment_detail" class="btn btn-warning text-light mx-1">View</a> {% endcomment %}
+      {% if request.user.is_staff and request.user.is_superuser %} {% comment %} <a href="{% url 'comment_detail' comment.id %}" name="comment_detail" class="btn btn-warning text-light mx-1">View</a> {% endcomment %}
       <a href="{% url 'comment_delete' comment.id %}" name="comment_delete" class="btn btn-danger text-light mx-1">Delete</a>
+      {% endif %}
     </div>
     <hr />
   </div>

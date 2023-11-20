@@ -6,6 +6,8 @@ from custom_admin.views import get_all_clinic_cases, ClinicCaseCreateView, Clini
 from custom_admin.views import get_all_clinic_images, ClinicImageCreateView, ClinicImageDeleteView, ClinicImagesUpdateView
 from custom_admin.views import ReviewDetialView, ReviewCreateView, ReviewDeleteView
 from custom_admin.views import ViewComments, CommentDetailView, CommentCreateView, CommentDeleteView
+
+
 urlpatterns = [
     path('admin_home/', admin, name='admin_home'),
     path('users_list/', users_list, name='users_list'),
@@ -57,9 +59,7 @@ urlpatterns = [
          CommentDeleteView.as_view(), name='comment_delete'),
 
 
-
 ]
-
 
 urlpatterns += [
     path('reviewlist', reviews_list, name='reviewlist'),
