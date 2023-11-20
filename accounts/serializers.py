@@ -1,3 +1,4 @@
+from requests import request
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
 import re
@@ -99,12 +100,10 @@ class UserSerializerEdit(serializers.ModelSerializer):
         if data.get('first_name') is None:
             raise serializers.ValidationError(
                 {'first_name': 'This field cannot be null.'})
+
         if data.get('last_name') is None:
             raise serializers.ValidationError(
                 {'last_name': 'This field cannot be null.'})
-        if data.get('clinic') is None:
-            raise serializers.ValidationError(
-                {'clinic': 'This field cannot be null.'})
 
         return data
 
