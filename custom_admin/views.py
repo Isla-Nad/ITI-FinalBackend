@@ -114,6 +114,7 @@ def user_edit(request, id):
 def user_delete(request, id):
     user_to_delete = get_object_or_404(User, id=id)
     if user_to_delete == request.user:
+        messages.success(request, "You can't delete your self.")
         return redirect('users_list')
     elif request.method == 'POST':
         user_to_delete.delete()
@@ -193,8 +194,8 @@ def appointment_delete(request, id):
     if request.method == 'POST':
         if not appointment_to_delete.is_accepted:
             appointment_to_delete.delete()
-            messages.success(request, 'Appointment deleted successfully.')
         else:
+            messages.success(request, 'Accepted Appointment can not deleted .')
             return render(request, 'appointments/appointment_delete.html')
 
         return redirect('appointments_list')
