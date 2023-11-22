@@ -92,10 +92,20 @@ class UserSerializerEdit(serializers.ModelSerializer):
 
     def validate(self, data):
         phone = data.get('phone', '')
+        first_name = data.get('first_name', '')
+        last_name = data.get('last_name', '')
 
         if not re.match(r"^01[0-9]{9}$", phone):
             raise serializers.ValidationError(
                 {'phone': 'Invalid Egyptian phone number format.'})
+
+        if not re.match(r"^[a-zA-Z_][a-zA-Z0-9_]*$", first_name):
+            raise serializers.ValidationError(
+                {'first_name': 'Please use only alphanumeric characters, starting with a letter or underscore.'})
+
+        if not re.match(r"^[a-zA-Z_][a-zA-Z0-9_]*$", last_name):
+            raise serializers.ValidationError(
+                {'last_name': 'Please use only alphanumeric characters, starting with a letter or underscore.'})
 
         if data.get('first_name') is None:
             raise serializers.ValidationError(
