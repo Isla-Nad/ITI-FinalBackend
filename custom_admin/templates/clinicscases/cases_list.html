@@ -22,7 +22,9 @@
     <div class="grid-col col-1 border-end border-secondary">{{ case.clinic.name }}</div>
     <div class="grid-col col-1 border-end border-secondary">{{ case.title }}</div>
     <div class="grid-col col-3 border-end border-secondary">{{ case.desc }}</div>
+    {% if case.image %}
     <img class="grid-col col-4 border-end border-secondary" src="{{ case.image.url }}" class="card-img-top" alt="..." />
+    {% endif %}
     <div class="grid-col col-2 gap-2 d-flex">
       {% if request.user.is_staff and request.user.is_superuser %}
       <a href="{% url 'update_clinic_case' case.id %}" name="update_clinic_case" class="btn btn-warning text-light mx-1">Edit</a>
