@@ -44,7 +44,8 @@ class User(AbstractUser, PermissionsMixin):
     is_doctor = models.BooleanField(_('doctor status'), default=False)
     phone = models.CharField(
         max_length=15, help_text="Enter an Egyptian phone number (e.g., +201234567890)")
-    clinic = models.ForeignKey(Clinic, null=True, blank=True, on_delete=models.CASCADE)
+    clinic = models.ForeignKey(
+        Clinic, null=True, blank=True, on_delete=models.CASCADE)
 
     objects = CustomUserManager()
     USERNAME_FIELD = 'email'
@@ -63,7 +64,7 @@ class UserProfile(models.Model):
     contact = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.user.first_name}"
+        return f"{self.user.first_name} {self.user.last_name}"
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):

@@ -12,7 +12,7 @@ from clinics.models import Clinic, ClinicImages, Cases
 from community.models import Review
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import user_passes_test, login_required
 from django.utils.decorators import method_decorator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -30,6 +30,8 @@ def custom_404_view(request, exception=None):
 
 
 def admin_login(request):
+    if request.user.is_authenticated:
+        return redirect(reverse('admin_home'))
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -152,10 +154,11 @@ def user_profile_edit(request, id):
         cases_formset = CasesFormSet(
             request.POST, request.FILES, instance=user_profile_to_edit)
 
-        if user_profile_form.is_valid() and certificates_formset.is_valid() and cases_formset.is_valid():
+        if user_profile_form.is_valid():
             user_profile_form.save()
-            certificates_formset.save()
-            cases_formset.save()
+            if certificates_formset.is_valid() and cases_formset.is_valid():
+                certificates_formset.save()
+                cases_formset.save()
             return redirect('user_profiles_list')
     else:
         user_profile_form = UserProfileForm(instance=user_profile_to_edit)
@@ -166,8 +169,8 @@ def user_profile_edit(request, id):
     return render(request, 'user_profiles/user_profile_edit.html', context={
         'user': user,
         'user_profile_form': user_profile_form,
-        'certificates_formset': certificates_formset if user.is_doctor else None,
-        'cases_formset': cases_formset if user.is_doctor else None,
+        'certificates_formset': certificates_formset,
+        'cases_formset': cases_formset,
     })
 
 

@@ -58,6 +58,8 @@ def appointment_delete(request, id):
     appointment = get_object_or_404(Appointment, id=id)
     if appointment.doctor != user:
         return Response({"detail": "You do not have permission to delete this review."}, status=status.HTTP_403_FORBIDDEN)
+    if appointment.is_accepted:
+        return Response({"detail": "Accepted Appointment can not deleted."}, status=status.HTTP_403_FORBIDDEN)
     appointment.delete()
     return Response({"detail": "Review deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
 

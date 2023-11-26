@@ -5,7 +5,8 @@
     <a href="{% url 'user_profiles_list' %}" class="btn btn-dark">Back</a>
   </div>
   <form method="post" enctype="multipart/form-data" class="p-3">
-    {% csrf_token %} {{ user_profile_form.as_p }} {{ certificates_formset.management_form }} {% for form in certificates_formset.forms %} {{ form.as_p }} {% endfor %} {{ cases_formset.management_form }} {% for form in cases_formset.forms %} {{ form.as_p }} {% endfor %}
+    {% csrf_token %} {{ user_profile_form.as_p }} {% if user.is_doctor %} {{ certificates_formset.management_form }} {% for form in certificates_formset.forms %} {{ form.as_p }} {% endfor %} {{ cases_formset.management_form }} {% for form in cases_formset.forms %} {{ form.as_p }} {% endfor %}{% endif %}
+
     <input type="submit" name="profile" class="btn btn-outline-success form-control mt-3" value="Update Profile" />
   </form>
 </div>
